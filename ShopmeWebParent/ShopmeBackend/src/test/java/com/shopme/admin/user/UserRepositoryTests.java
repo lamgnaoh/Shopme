@@ -40,7 +40,7 @@ public class UserRepositoryTests {
         newUser.addRole(roleEditor);
         newUser.addRole(roleAssistant);
         User savedUser = userRepository.save(newUser);
-        assertThat(newUser.getId()).isGreaterThan(0);
+        assertThat(savedUser.getId()).isGreaterThan(0);
     }
 
     @Test
@@ -80,5 +80,12 @@ public class UserRepositoryTests {
         Integer deleteId = 2;
         userRepository.deleteById(deleteId);
 
+    }
+
+    @Test
+    public void testGetUserByEmail(){
+        String email = "abc@gmail.com";
+        User user = userRepository.getUserByEmail(email);
+        assertThat(user).isNull();
     }
 }

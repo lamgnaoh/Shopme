@@ -62,7 +62,9 @@
         <h2>Manage Users | Create new User</h2>
 
         <!-- Create Form -->
-        <form class="needs-validation" novalidate th:action = "@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto" th:object="${user}">
+        <form class="needs-validation" novalidate th:action = "@{/users/save}" method="post"
+              style="max-width: 700px; margin: 0 auto" th:object="${user}"
+              onsubmit= "return checkEmailUnique(this)">
                 <div class="border border-secondary rounded p-3">
                     <div class="row input-group p-3">
                         <label class="col-sm-4 form-label" for="emailInput">Email:</label>
@@ -124,6 +126,23 @@
                 </div>
 
         </form>
+<!--        modal dialog thong bao loi-->
+        <div class="modal fade text-center" id="modalDialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalTitle">Warning</h4>
+                        <button type="button" class="btn-close"  data-bs-dismiss="modal" ></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modalBody"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="text-center">
             <p>Shopme Control Panel - Copyright &copy; Shopme</p>
@@ -150,7 +169,39 @@
         $("#cancelButton").on("click", function (){
             window.location = "[[@{/users}]]"
         })
-    })()
+    })();
+    function checkEmailUnique(form){
+        url = "[[@{/users/check_email}]]";
+        userEmail = $("#emailInput").val();
+        csrfValue = $("input[name= '_csrf']").val();
+        params = {
+            email: userEmail,
+            _csrf : csrfValue
+        }
+        $.post(url , params, function (response){
+            if(response === "OK"){
+                form.submit();
+            } else if (response === "Duplicated"){
+                showModalDialog("Warning" , "There is another user having the email "+ userEmail);
+            } else{
+                showModalDialog("Error" , "Unknown response from server");
+            }
+        }).fail(function (){
+            showModalDialog("Error" , "Could not connect to server")
+
+        })
+        return false;
+    }
+
+    function showModalDialog(title , message){
+        $("#modalTitle").text(title);
+        $("#modalBody").text(message);
+        // khoi tao 1 modal dialog
+        var modal = new bootstrap.Modal($("#modalDialog") , {});
+        modal.show();
+    }
+
+
 </script>
 </body>
 </html>
