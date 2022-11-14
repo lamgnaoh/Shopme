@@ -7,6 +7,9 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}">
     <script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/fontawesome/all.css}">
+    <link rel="stylesheet" th:href="@{/style.css}">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />-->
 
 </head>
 <body>
@@ -62,21 +65,22 @@
         <h2>Manage Users</h2>
         <a class="btn btn-primary p-2 my-2" th:href="@{/users/new}">Create new user</a>
 
-        <div th:if="${message != null}" class="alert alert-success text-center">
+        <div th:if="${message != null}" class="alert alert-success text-center" id="messageBlock">
             [[${message}]]
         </div>
+
         <div>
             <table class="table table-responsive-xl table-bordered table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
-                        <th>User Id</th>
-                        <th>Photos</th>
-                        <th>Email</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Roles</th>
-                        <th>Enabled</th>
-                        <th></th>
+                        <th class="text-center">User Id</th>
+                        <th class="text-center">Photos</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">First Name</th>
+                        <th class="text-center">Last Name</th>
+                        <th class="text-center">Roles</th>
+                        <th class="text-center">Enabled</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,19 +91,67 @@
                         <td>[[${user.firstName}]]</td>
                         <td>[[${user.lastName}]]</td>
                         <td>[[${user.roles}]]</td>
-                        <td>[[${user.enabled}]]</td>
-                        <td>
-                            Edit &nbsp; Delete
+                        <td class="text-center">
+                            <a th:if="${user.enabled == true }" class="fa-sharp fa-solid fa-circle-check fa-2x icon-green "
+                                th:href="@{'/users/' + ${user.id} + '/enabled/false'}" title="Disable this user"></a>
+                            <a th:if="${user.enabled == false }" class="fa-sharp fa-solid fa-circle fa-2x icon-gray"
+                                th:href="@{'/users/' + ${user.id} + '/enabled/true'}" title="Enable this user"></a>
+
+                        </td>
+                        <td class="text-center">
+                            <a class="fa-solid fa-pen-to-square fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
+                            <a class="fa-sharp fa-solid fa-trash fa-2x icon-gray link-delete"
+                               th:userId = "${user.id}"
+                               th:href="@{'/users/delete/' + ${user.id}}"
+                               title="Delete this user"></a>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+<!--        modal confirm delete -->
+        <div class="modal fade text-center" id="confirmDialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete Confirmation</h4>
+                        <button type="button" class="btn-close"  data-bs-dismiss="modal" ></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="confirmText"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a  class="btn btn-success" href="" id="confirmButton">Yes</a>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="text-center">
             <p>Shopme Control Panel - Copyright &copy; Shopme</p>
         </div>
     </div>
+<script type="text/javascript">
+    $(document).ready(function (){
+        $(".link-delete").on("click" , function(e){
+            e.preventDefault();
+            userId = $(this).attr("userId")
+            $("#confirmText").text("Are you sure want to delete this user with id : " + userId);
+
+            // set href yes button to delete user url
+            $("#confirmButton").attr("href" , $(this).attr("href"));
+
+            var modal = new bootstrap.Modal($("#confirmDialog") , {});
+            modal.show();
+        })
+
+        setTimeout(() =>{
+            const el = $("#messageBlock").get(0)
+            el.style.display = "none";
+        },3000);
+    })
+</script>
 </body>
 </html>
 

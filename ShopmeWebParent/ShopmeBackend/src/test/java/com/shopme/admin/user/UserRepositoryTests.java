@@ -88,4 +88,17 @@ public class UserRepositoryTests {
         User user = userRepository.getUserByEmail(email);
         assertThat(user).isNull();
     }
+
+    @Test
+    public void testCountById(){
+        Integer id = 3;
+        Long countById = userRepository.countById(id);
+        assertThat(countById).isNotNull().isGreaterThan(0);
+    }
+
+    @Test
+    public void testChangeEnableStatus(){
+        userRepository.updateEnabledStatus(3,false);
+    }
+
 }

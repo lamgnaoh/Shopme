@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 , minimum-scale = 1.0">
-    <title>Create new user</title>
+    <title>[[${pageTitle}]]</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}">
     <script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
@@ -59,18 +59,18 @@
             </nav>
 
         </div>
-        <h2>Manage Users | Create new User</h2>
+        <h2>Manage Users | [[${pageTitle}]]</h2>
 
         <!-- Create Form -->
-        <form class="needs-validation" novalidate th:action = "@{/users/save}" method="post"
+        <form  th:action = "@{/users/save}" method="post"
               style="max-width: 700px; margin: 0 auto" th:object="${user}"
               onsubmit= "return checkEmailUnique(this)">
+            <input type="hidden" name="id" id="userId"  th:field="${user.id}">
                 <div class="border border-secondary rounded p-3">
                     <div class="row input-group p-3">
                         <label class="col-sm-4 form-label" for="emailInput">Email:</label>
                         <div class="col-sm-8">
                             <input type="email" class="form-control"  id="emailInput" th:field="*{email}" required minlength="8" maxlength="128" placeholder="Email must be valid"/>
-                            <div class="invalid-feedback">Please provide a valid email</div>
                         </div>
                     </div>
 
@@ -78,7 +78,6 @@
                         <label class="col-sm-4 form-label" for="firstNameInput">First Name:</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control"  id="firstNameInput" th:field="*{firstName}" required minlength="1" maxlength="45" placeholder="First name must between 1 and 45 characters"/>
-                            <div class="invalid-feedback">Please provide a valid first name</div>
                         </div>
 
                     </div>
@@ -87,21 +86,21 @@
                         <label class="col-sm-4 form-label" for="lastNameInput">Last Name:</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control"  id="lastNameInput" th:field="*{lastName}" required minlength="1" maxlength="45" placeholder="Last name must between 1 and 45 characters"/>
-                            <div class="invalid-feedback">Please provide a valid last name</div>
                         </div>
 
                     </div>
 
                     <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label" for="passwordInput">Password:</label>
+                        <label class="col-sm-4 form-label">Password:</label>
                         <div class="col-sm-8">
-                            <input type="password" class="form-control"  id="passwordInput" th:field="*{password}" required minlength="8" maxlength="20" placeholder="Password must between 8 and 20 characters"/>
-                            <div class="invalid-feedback">Please provide a valid password</div>
+                            <input type="password" th:if="${user.id == null}" class="form-control" th:field="*{password}" required minlength="8" maxlength="20" placeholder="Password must between 8 and 20 characters"/>
+                            <input type="password" th:if="${user.id != null}" class="form-control" th:field="*{password}" minlength="8" maxlength="20" placeholder="Leave this field blank if no need to change"/>
+
                         </div>
                     </div>
 
                     <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label" for="passwordInput">Roles:</label>
+                        <label class="col-sm-4 form-label">Roles:</label>
                         <div class="col-sm-8">
                             <th:block >
                                 <div th:each="role: ${listRoles}" class="m-2">
@@ -118,6 +117,16 @@
                             <input type="checkbox"   th:field="*{enabled}" />
                         </div>
                     </div>
+
+
+                    <div class="row input-group p-3">
+                        <label class="col-sm-4 form-label" >Photos:</label>
+                        <div class="col-sm-8">
+                            <input type="file"  id="fileImage" accept="image/png ,image/jpeg">
+                            <img th:src="@{/images/default-user.png}" alt="Photo preview" id="thumbnail">
+                        </div>
+                    </div>
+
 
                     <div class="text-end p-3">
                         <input type="submit" value="Save" class="btn btn-primary m-2" />
@@ -149,36 +158,20 @@
         </div>
     </div>
 <script>
-    (() => {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
-        // Loop over them and prevent submission
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-
-        $("#cancelButton").on("click", function (){
-            window.location = "[[@{/users}]]"
-        })
-    })();
+    $("#cancelButton").on("click", function (){
+        window.location = "[[@{/users}]]"
+    })
     function checkEmailUnique(form){
         url = "[[@{/users/check_email}]]";
         userEmail = $("#emailInput").val();
         csrfValue = $("input[name= '_csrf']").val();
-        params = {
+        userId = $("#userId").val();
+        data = {
+            id: userId,
             email: userEmail,
             _csrf : csrfValue
         }
-        $.post(url , params, function (response){
+        $.post(url , data, function (response){
             if(response === "OK"){
                 form.submit();
             } else if (response === "Duplicated"){
