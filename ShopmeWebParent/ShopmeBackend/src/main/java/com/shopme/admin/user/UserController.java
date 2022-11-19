@@ -1,14 +1,19 @@
 package com.shopme.admin.user;
 
+import com.shopme.admin.utils.FileUploadUtil;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class UserController {
@@ -34,10 +39,24 @@ public class UserController {
     }
 
     @PostMapping("/users/save")
-    public String saveUser(User user , RedirectAttributes redirectAttributes){
+    public String saveUser(User user , RedirectAttributes redirectAttributes , @RequestParam("image") MultipartFile multipartFile) throws IOException {
 //        RedirectAttribute được dùng để truyền các giá trị , tham số khi thực hiện redirect
         System.out.println(user);
-        userService.save(user);
+        if(!multipartFile.isEmpty()){
+            System.out.println(multipartFile.getOriginalFilename());
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            user.setPhotos(fileName);
+            User savedUser = userService.save(user);
+            String uploadDir = "src/main/resources/user-photos/" + savedUser.getId();
+            FileUploadUtil.cleanDir(uploadDir);
+            FileUploadUtil.saveFile(uploadDir,fileName,multipartFile);
+        } else {
+                if(user.getPhotos().isEmpty()){
+                    user.setPhotos(null);
+                }
+                userService.save(user);
+        }
+
         redirectAttributes.addFlashAttribute("message" , "The user has been create successfully");
         return "redirect:/users";
     }

@@ -86,7 +86,10 @@
                 <tbody>
                     <tr th:each="user : ${listUsers}">
                         <td>[[${user.id}]]</td>
-                        <td></td>
+                        <td>
+                            <img th:if = "${user.photos == null}" th:src = "@{/images/default-user.png}" style="width: 100px"/>
+                            <img th:if="${user.photos != null}" th:src="@{${user.getPhotosImagePath()}}" style="width: 100px"/>
+                        </td>
                         <td>[[${user.email}]]</td>
                         <td>[[${user.firstName}]]</td>
                         <td>[[${user.lastName}]]</td>
