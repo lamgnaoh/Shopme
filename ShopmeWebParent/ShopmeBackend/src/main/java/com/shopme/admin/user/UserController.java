@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -23,12 +24,14 @@ public class UserController {
 
     @GetMapping("/users")
     public String listFirstPage(Model model){
-        return listByPage(1,model , "id" , "asc");
+        return listByPage(1,model , "id" , "asc" , null);
     }
 
     @GetMapping("/users/page/{pageNum}")
-    public String listByPage(@PathVariable(name = "pageNum") int pageNum , Model model , @RequestParam("sortField") String sortField , @RequestParam("sortDir") String sortDir){
-        Page<User> page = userService.listUsersByPage(pageNum,sortField,sortDir);
+    public String listByPage(@PathVariable(name = "pageNum") int pageNum , Model model ,
+                             @RequestParam("sortField") String sortField , @RequestParam("sortDir") String sortDir ,
+                             @RequestParam(value = "keyword" , required = false) String keyword){
+        Page<User> page = userService.listUsersByPage(pageNum,sortField,sortDir,keyword);
         List<User> listUsers = page.getContent();
         long startCount = (long) (pageNum - 1) * UserService.USERS_PER_PAGE +1;
         long endCount =   startCount + UserService.USERS_PER_PAGE -1 ;
@@ -52,6 +55,7 @@ public class UserController {
         model.addAttribute("listUsers" ,listUsers);
         model.addAttribute("sortField" ,sortField);
         model.addAttribute("sortDir" ,sortDir);
+        model.addAttribute("keyword", keyword);
         model.addAttribute("reverseSortDir" ,reverseSortDir);
 
         return "users";
@@ -69,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping("/users/save")
-    public String saveUser(User user , RedirectAttributes redirectAttributes , @RequestParam("image") MultipartFile multipartFile) throws IOException {
+    public String saveUser( User user , RedirectAttributes redirectAttributes , @RequestParam("image") MultipartFile multipartFile) throws IOException {
 //        RedirectAttribute được dùng để truyền các giá trị , tham số khi thực hiện redirect
         System.out.println(user);
         if(!multipartFile.isEmpty()){
@@ -88,7 +92,7 @@ public class UserController {
         }
 
         redirectAttributes.addFlashAttribute("message" , "The user has been create successfully");
-        return "redirect:/users";
+        return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + user.getId();
     }
     @GetMapping("/users/edit/{id}")
     public String editUser(@PathVariable(name = "id") Integer id , Model model , RedirectAttributes redirectAttributes){

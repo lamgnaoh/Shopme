@@ -1,69 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 , minimum-scale = 1.0">
-    <title>Home - Shopme Admin Control Panel</title>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}">
-    <script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
-    <link rel="stylesheet" th:href="@{/fontawesome/all.css}">
-    <link rel="stylesheet" th:href="@{/style.css}">
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />-->
-
-</head>
+<head th:replace="fragments :: page_head('Users - Shopme Admin')"></head>
 <body>
     <div class="container-fluid">
         <!-- navigation -->
 
-        <div>
-            <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-                <a class="navbar-brand" th:href="@{/}">
-                    <img th:src="@{/images/ShopmeAdminSmall.png}">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapeibleNavbar" aria-controls="collapeibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="collapeibleNavbar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/users}">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/categories}">Categories</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/brands}">Brands</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/products}">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/customers}">Customers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/shipping}">Shipping</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/orders}">Orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/report}">Sale reports</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/menus}">Menus</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/settings}">Settings</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </nav>
-
-        </div>
+        <div th:replace="navigation :: menu"></div>
         <h2>Manage Users</h2>
         <a class="btn btn-primary p-2 my-2" th:href="@{/users/new}">Create new user</a>
+
+        <div>
+            <form th:action="@{/users/page/1}" class="d-flex flex-row align-items-center flex-wrap my-3">
+                <input type="hidden" name="sortField" th:value="${sortField}">
+                <input type="hidden" name="sortDir" th:value="${sortDir}">
+                Filter: &nbsp;
+                <input type="search" name="keyword" class="form-control w-auto d-inline-block" th:value="${keyword}" required >
+                &nbsp; &nbsp;
+                <input type="submit" value="Search" class="btn btn-primary" >
+                &nbsp; &nbsp;
+                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()" >
+            </form>
+        </div>
 
         <div th:if="${message != null}" class="alert alert-success text-center" id="messageBlock">
             [[${message}]]
@@ -75,9 +32,9 @@
                     <tr>
                         <th class="text-center ">
                             <a class="text-white text-decoration-none" th:if="${sortField != 'id' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=id' +'&sortDir=' + ${sortDir}}" >User Id</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=id' +'&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >User Id</a>
                             <a class="text-white text-decoration-none" th:if="${sortField == 'id' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=id' +'&sortDir=' + ${reverseSortDir}}" >User Id</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=id' +'&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword='+ keyword : ''}}" >User Id</a>
                             <span th:if = "${sortField == 'id'}"
                                   th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></span>
                         </th>
@@ -86,34 +43,34 @@
                         </th>
                         <th class="text-center">
                             <a class="text-white text-decoration-none" th:if="${sortField != 'email' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=email' +'&sortDir=' + ${sortDir}}" >Email</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=email' +'&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >Email</a>
                             <a class="text-white text-decoration-none" th:if="${sortField == 'email' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=email' +'&sortDir=' + ${reverseSortDir}}" >Email</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=email' +'&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >Email</a>
                             <span th:if = "${sortField == 'email'}"
                                   th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></span>
                         </th>
                         <th class="text-center">
                             <a class="text-white text-decoration-none" th:if="${sortField != 'firstName' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=firstName' +'&sortDir=' + ${sortDir}}" >First Name</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=firstName' +'&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >First Name</a>
                             <a class="text-white text-decoration-none" th:if="${sortField == 'firstName' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=firstName' +'&sortDir=' + ${reverseSortDir}}" >First Name</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=firstName' +'&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >First Name</a>
                             <span th:if = "${sortField == 'firstName'}"
                                   th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></span>
                         </th>
                         <th class="text-center">
                             <a class="text-white text-decoration-none" th:if="${sortField != 'lastName' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=lastName' +'&sortDir=' + ${sortDir}}" >Last Name</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=lastName' +'&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >Last Name</a>
                             <a class="text-white text-decoration-none" th:if="${sortField == 'lastName' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=lastName' +'&sortDir=' + ${reverseSortDir}}" >Last Name</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=lastName' +'&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >Last Name</a>
                             <span th:if = "${sortField == 'lastName'}"
                                   th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></span>
                         </th>
                         <th class="text-center">Roles</th>
                         <th class="text-center">
                             <a class="text-white text-decoration-none" th:if="${sortField != 'enabled' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=enabled' +'&sortDir=' + ${sortDir}}" >Enabled</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=enabled' +'&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >Enabled</a>
                             <a class="text-white text-decoration-none" th:if="${sortField == 'enabled' }"
-                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=enabled' +'&sortDir=' + ${reverseSortDir}}" >Enabled</a>
+                               th:href = "@{'/users/page/' + ${currentPage} + '/?sortField=enabled' +'&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >Enabled</a>
                             <span th:if = "${sortField == 'enabled'}"
                                   th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></span>
                         </th>
@@ -189,9 +146,7 @@
             </div>
         </div>
 
-        <div class="text-center">
-            <p>Shopme Control Panel - Copyright &copy; Shopme</p>
-        </div>
+        <div th:replace="fragments :: footer"></div>
     </div>
 <script type="text/javascript">
     $(document).ready(function (){
@@ -212,6 +167,10 @@
             el.style.display = "none";
         },3000);
     })
+
+    function clearFilter(){
+        window.location = "[[@{/users/}]]";
+    }
 </script>
 </body>
 </html>
