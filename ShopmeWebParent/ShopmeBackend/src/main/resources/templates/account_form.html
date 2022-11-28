@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head(${pageTitle})"></head>
+<head th:replace="fragments :: page_head('Account Detail')"></head>
 <body>
     <div class="container-fluid">
         <!-- navigation -->
 
         <div th:replace="navigation :: menu"></div>
 
-        <h2>Manage Users | [[${pageTitle}]]</h2>
+        <div th:if="${message != null}" class="alert alert-success text-center mt-2" id="messageBlock">
+            [[${message}]]
+        </div>
 
         <!-- Create Form -->
-        <form  th:action = "@{/users/save}" method="post" id="formSubmit"
+        <form  th:action = "@{/account/update}" method="post" id="formSubmit"
               style="max-width: 700px; margin: 0 auto" th:object="${user}"
-               enctype="multipart/form-data"
-              onsubmit= "return checkEmailUnique(this)">
+               enctype="multipart/form-data">
+            <div class="text-center my-3">
+                <h2>Account Detail</h2>
+            </div>
             <input type="hidden" name="id" id="userId"  th:field="${user.id}">
                 <div class="border border-secondary rounded p-3">
                     <div class="row input-group p-3">
                         <label class="col-sm-4 form-label" for="emailInput">Email:</label>
                         <div class="col-sm-8">
-                            <input type="email" class="form-control"  id="emailInput" th:field="*{email}" required minlength="8" maxlength="128" placeholder="Email must be valid"/>
+                            <input type="email" class="form-control "  id="emailInput" th:field="${user.email}" disabled/>
                         </div>
                     </div>
 
                     <div class="row input-group p-3">
                         <label class="col-sm-4 form-label" for="firstNameInput">First Name:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control"  id="firstNameInput" th:field="*{firstName}" required minlength="1" maxlength="45" placeholder="First name must between 1 and 45 characters"/>
+                            <input type="text" class="form-control"  id="firstNameInput" th:field="${user.firstName}" required minlength="1" maxlength="45" placeholder="First name must between 1 and 45 characters"/>
                         </div>
 
                     </div>
@@ -34,7 +38,7 @@
                     <div class="row input-group p-3">
                         <label class="col-sm-4 form-label" for="lastNameInput">Last Name:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control"  id="lastNameInput" th:field="*{lastName}" required minlength="1" maxlength="45" placeholder="Last name must between 1 and 45 characters"/>
+                            <input type="text" class="form-control"  id="lastNameInput" th:field="${user.lastName}" required minlength="1" maxlength="45" placeholder="Last name must between 1 and 45 characters"/>
                         </div>
 
                     </div>
@@ -42,31 +46,27 @@
                     <div class="row input-group p-3">
                         <label class="col-sm-4 form-label">Password:</label>
                         <div class="col-sm-8">
-                            <input type="password" th:if="${user.id == null}" class="form-control" th:field="*{password}" required minlength="8" maxlength="20" placeholder="Password must between 8 and 20 characters"/>
-                            <input type="password" th:if="${user.id != null}" class="form-control" th:field="*{password}" minlength="8" maxlength="20" placeholder="Leave this field blank if no need to change"/>
-
+                            <input id="password" name="password" type="password" th:field="${user.password}" class="form-control" placeholder="Leave blank if you dont want to change your password" minlength="8" maxlength="20">
                         </div>
                     </div>
 
                     <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label">Roles:</label>
+                        <label class="col-sm-4 form-label">Confirm password:</label>
                         <div class="col-sm-8">
-                            <th:block >
-                                <div th:each="role: ${listRoles}" class="m-2">
-                                    <input type="checkbox" th:field="*{roles}" th:text = "${role.name}" th:value="${role.id}">
-                                    - <small>[[${role.description}]]</small>
-                                </div>
-                            </th:block>
+                            <input type="password"  id="confirmPassword" name="confirmPassword" class="form-control" minlength="8"
+                                   maxlength="20"
+                                   >
                         </div>
                     </div>
 
                     <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label" >Enabled:</label>
+                        <label class="col-sm-4 form-label">Assigned Roles:</label>
                         <div class="col-sm-8">
-                            <input type="checkbox"   th:field="*{enabled}" />
+                            <span class="fs-5">
+                                [[${user.roles}]]
+                            </span>
                         </div>
                     </div>
-
 
                     <div class="row input-group p-3">
                         <label class="col-sm-4 form-label" >Photos:</label>
@@ -106,6 +106,60 @@
         <div th:replace="fragments :: footer"></div>
     </div>
 <script>
+
+   $(document).ready(function(){
+        const passwordBox = $("#password");
+        const confirmBox = $("#confirmPassword");
+        const errorMsg =  $('<span id="error_msg" class="text-danger">Passwords do not match.Please check again</span>');
+
+
+
+        function checkMatchingPasswords(){
+            if(confirmBox.val() !== "" && passwordBox.val !== ""){
+                if( confirmBox.val() !== passwordBox.val() ){
+                    errorMsg.insertAfter(confirmBox);
+                    confirmBox.addClass("is-invalid")
+                    passwordBox.addClass("is-invalid")
+                }else{
+                    confirmBox.addClass("is-valid").removeClass("is-invalid")
+                    passwordBox.addClass("is-valid").removeClass("is-invalid")
+                }
+
+            }
+        }
+
+        function resetPasswordError(){
+            const $errorCont = $("#error_msg");
+            if($errorCont.length > 0){
+                $errorCont.remove();
+            }
+        }
+
+
+        $("#confirmPassword, #password")
+            .on("keydown", function(e){
+                /* only check when the tab or enter keys are pressed
+                 * to prevent the method from being called needlessly  */
+                if(e.keyCode === 13 || e.keyCode === 9) {
+                    checkMatchingPasswords();
+                }
+            })
+            .on("blur", function(){
+                // also check when the element looses focus (clicks somewhere else)
+                checkMatchingPasswords();
+            })
+            .on("focus", function(){
+                // reset the error message when they go to make a change
+                resetPasswordError();
+            })
+
+       setTimeout(() =>{
+           const el = $("#messageBlock").get(0)
+           el.style.display = "none";
+       },3000);
+
+    });
+
     $("#cancelButton").on("click", function (){
         window.location = "[[@{/users}]]"
     })
@@ -126,38 +180,6 @@
         }
     })
 
-    function checkEmailUnique(form){
-        url = "[[@{/users/check_email}]]";
-        userEmail = $("#emailInput").val();
-        csrfValue = $("input[name= '_csrf']").val();
-        userId = $("#userId").val();
-        data = {
-            id: userId,
-            email: userEmail,
-            _csrf : csrfValue
-        }
-        $.post(url , data, function (response){
-            if(response === "OK"){
-                form.submit();
-            } else if (response === "Duplicated"){
-                showModalDialog("Warning" , "There is another user having the email "+ userEmail);
-            } else{
-                showModalDialog("Error" , "Unknown response from server");
-            }
-        }).fail(function (){
-            showModalDialog("Error" , "Could not connect to server")
-
-        })
-        return false;
-    }
-
-    function showModalDialog(title , message){
-        $("#modalTitle").text(title);
-        $("#modalBody").text(message);
-        // khoi tao 1 modal dialog
-        var modal = new bootstrap.Modal($("#modalDialog") , {});
-        modal.show();
-    }
 
 
 </script>

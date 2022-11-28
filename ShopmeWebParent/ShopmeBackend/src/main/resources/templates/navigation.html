@@ -47,9 +47,14 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  aria-expanded="false" sec:authentication="principal.fullName">Settings</a>
           <ul class="dropdown-menu">
+
+            <li>
+              <a th:href="@{/account}" id = "updateAccountLink" class="dropdown-item">Account</a>
+            </li>
             <li>
               <a  id = "logoutLink" class="dropdown-item">Logout</a>
             </li>
+
           </ul>
         </li>
       </ul>

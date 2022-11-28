@@ -48,13 +48,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeHttpRequests()
             .anyRequest().authenticated() // tất cả các request đến đều cần authenticated - cần login
             .and()
-            .formLogin()
+                .formLogin()
                 .loginPage("/login") // form login tuỳ chỉnh với đường dẫn tới trang login là /login chứ không sử dụng login page mặc định của spring security
                 .usernameParameter("email")
                 .permitAll() // cho phép tất cả đều được quyền truy cập trang login
             .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+            .and().rememberMe()
+                .key("010203040506070809ShopmeAdmin")
+                .tokenValiditySeconds(7*24*60*60);
     }
 
 

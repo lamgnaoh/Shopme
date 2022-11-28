@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -66,6 +67,22 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User updateAccount(User userInForm){
+        User user = userRepository.findById(userInForm.getId()).get();
+//        if update password
+        if(!userInForm.getPassword().isEmpty()){
+            user.setPassword(userInForm.getPassword());
+            encodePassword(user);
+        }
+//      if update user photos
+        if(!userInForm.getPhotos().isEmpty()){
+            user.setPhotos(userInForm.getPhotos());
+        }
+        user.setFirstName(userInForm.getFirstName());
+        user.setLastName(userInForm.getLastName());
+        return userRepository.save(user);
+    }
+
     public void encodePassword(User user){
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -106,5 +123,11 @@ public class UserService {
     public void updateUserEnableStatus(Integer id , boolean enabled){
         userRepository.updateEnabledStatus(id,enabled);
     }
+
+    public User getByEmail(String email){
+        return userRepository.getUserByEmail(email);
+    }
+
+
 
 }
