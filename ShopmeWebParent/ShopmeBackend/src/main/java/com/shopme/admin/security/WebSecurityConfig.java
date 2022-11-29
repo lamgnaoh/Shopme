@@ -46,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // setting việc access application se can authentication (login)
         http.authorizeHttpRequests()
+            .antMatchers("/users/**").hasAuthority("Admin")
             .anyRequest().authenticated() // tất cả các request đến đều cần authenticated - cần login
             .and()
                 .formLogin()

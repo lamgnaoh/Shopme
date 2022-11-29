@@ -85,29 +85,13 @@
                 </div>
 
         </form>
-<!--        modal dialog thong bao loi-->
-        <div class="modal fade text-center" id="modalDialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="modalTitle">Warning</h4>
-                        <button type="button" class="btn-close"  data-bs-dismiss="modal" ></button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="modalBody"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div th:replace="fragments :: footer"></div>
     </div>
 <script>
 
    $(document).ready(function(){
+       // code validate password match
         const passwordBox = $("#password");
         const confirmBox = $("#confirmPassword");
         const errorMsg =  $('<span id="error_msg" class="text-danger">Passwords do not match.Please check again</span>');
@@ -161,7 +145,7 @@
     });
 
     $("#cancelButton").on("click", function (){
-        window.location = "[[@{/users}]]"
+        window.location = "[[@{/}]]"
     })
 
 // validate file size
