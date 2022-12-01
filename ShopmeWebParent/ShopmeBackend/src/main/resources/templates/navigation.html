@@ -10,7 +10,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="collapeibleNavbar">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav d-flex w-100">
         <li class="nav-item">
           <a class="nav-link" th:href="@{/users}" sec:authorize="hasAuthority('Admin')">Users</a>
         </li>
@@ -80,11 +80,11 @@
           <a class="nav-link" th:href="@{/settings}" sec:authorize="hasAuthority('Admin')">Settings</a>
         </li>
 
-        <li>
+        <li class="ms-xl-auto">
           <span class="fa-solid fa-user fa-2x icon-white"></span>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  aria-expanded="false" sec:authentication="principal.fullName">Settings</a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  aria-expanded="false" sec:authentication="principal.fullName"></a>
           <ul class="dropdown-menu">
 
             <li>
