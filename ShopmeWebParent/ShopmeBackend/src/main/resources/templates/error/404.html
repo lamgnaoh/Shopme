@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:sec = "http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace = "fragments :: page_head('Error - Shopme Admin')"></head>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid vh-100">
       <!-- navigation -->
 
       <div th:replace="navigation :: menu"></div>
@@ -11,9 +11,10 @@
             <h2>Sorry , the requested page could not be found </h2>
         </div>
 
-      <!--        footer-->
-      <div th:replace = "fragments :: footer"></div>
+
     </div>
+    <!--        footer-->
+    <div th:replace = "fragments :: footer"></div>
 <script type="text/javascript">
   $(document).ready(function () {
     $("#logoutLink").on("click" , function (e) {

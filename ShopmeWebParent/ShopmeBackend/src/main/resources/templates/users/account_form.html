@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <head th:replace="fragments :: page_head('Account Detail')"></head>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid vh-100">
         <!-- navigation -->
 
         <div th:replace="navigation :: menu"></div>
@@ -86,9 +86,10 @@
 
         </form>
 
-        <div th:replace="fragments :: footer"></div>
     </div>
-<script>
+<!--    footer-->
+    <div th:replace="fragments :: footer"></div>
+    <script>
 
    $(document).ready(function(){
        // code validate password match
