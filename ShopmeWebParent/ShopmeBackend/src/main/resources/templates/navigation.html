@@ -83,15 +83,15 @@
         <li class="ms-xl-auto">
           <span class="fa-solid fa-user fa-2x icon-white"></span>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  aria-expanded="false" sec:authentication="principal.fullName"></a>
-          <ul class="dropdown-menu">
+        <li class="nav-item dropdown me-2">
+          <a class="nav-link dropdown-toggle " style="cursor: pointer" data-bs-toggle="dropdown" data-bs-auto-close="true" id="dropdownMenuButton1" aria-expanded="false" sec:authentication="principal.fullName"></a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
 
             <li>
               <a th:href="@{/account}" id = "updateAccountLink" class="dropdown-item">Account</a>
             </li>
             <li>
-              <a  id = "logoutLink" class="dropdown-item">Logout</a>
+              <a  id="logoutLink" class="dropdown-item">Logout</a>
             </li>
 
           </ul>

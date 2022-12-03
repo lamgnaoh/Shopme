@@ -47,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // setting việc access application se can authentication (login)
         http.authorizeHttpRequests()
             .antMatchers("/users/**").hasAuthority("Admin")
+            .antMatchers("/categories/**").hasAnyAuthority("Admin","Editor")
             .anyRequest().authenticated() // tất cả các request đến đều cần authenticated - cần login
             .and()
                 .formLogin()
@@ -64,6 +65,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/images/**" , "/js/**" , "/webjars/**");
+        web.ignoring().antMatchers("/images/**" , "/js/**" , "/webjars/**" , "/css/**");
     }
 }

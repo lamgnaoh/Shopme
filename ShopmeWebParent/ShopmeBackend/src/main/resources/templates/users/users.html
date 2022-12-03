@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <head th:replace="fragments :: page_head('Users - Shopme Admin')"></head>
-<body>
-    <div class="container-fluid vh-100">
+<body class="d-flex flex-column h-100">
         <!-- navigation -->
 
         <div th:replace="navigation :: menu"></div>
-        <h2>Manage Users</h2>
-        <a class="btn btn-primary p-2 my-2" th:href="@{/users/new}">Create new user</a>
 
-        <div>
-            <form th:action="@{/users/page/1}" class="d-flex flex-row align-items-center flex-wrap my-3">
-                <input type="hidden" name="sortField" th:value="${sortField}">
-                <input type="hidden" name="sortDir" th:value="${sortDir}">
-                Filter: &nbsp;
-                <input type="search" name="keyword" class="form-control w-auto d-inline-block" th:value="${keyword}" required >
-                &nbsp; &nbsp;
-                <input type="submit" value="Search" class="btn btn-primary" >
-                &nbsp; &nbsp;
-                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()" >
-            </form>
-        </div>
+        <div class="container-fluid">
+            <h2>Manage Users</h2>
+            <a class="btn btn-primary p-2 my-2" th:href="@{/users/new}">Create new user</a>
 
-        <div th:if="${message != null}" class="alert alert-success text-center" id="messageBlock">
-            [[${message}]]
-        </div>
+            <div >
+                <form th:action="@{/users/page/1}" class="d-flex flex-row align-items-center flex-wrap my-3">
+                    <input type="hidden" name="sortField" th:value="${sortField}">
+                    <input type="hidden" name="sortDir" th:value="${sortDir}">
+                    Filter: &nbsp;
+                    <input type="search" name="keyword" class="form-control w-auto d-inline-block" th:value="${keyword}" required >
+                    &nbsp; &nbsp;
+                    <input type="submit" value="Search" class="btn btn-primary" >
+                    &nbsp; &nbsp;
+                    <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()" >
+                </form>
+            </div>
 
-        <div class="full-details">
-            <table class="table table-responsive-xl table-bordered table-striped table-hover">
-                <thead class="table-dark">
+            <div th:if="${message != null}" class="alert alert-success text-center" id="messageBlock">
+                [[${message}]]
+            </div>
+
+            <div class="full-details">
+                <table class="table table-responsive-xl table-bordered table-striped table-hover">
+                    <thead class="table-dark">
                     <tr>
                         <th class="text-center ">
                             <a class="text-white text-decoration-none" th:if="${sortField != 'id' }"
@@ -76,8 +77,8 @@
                         </th>
                         <th class="text-center"></th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr th:each="user : ${listUsers}">
                         <td>[[${user.id}]]</td>
                         <td>
@@ -90,9 +91,9 @@
                         <td>[[${user.roles}]]</td>
                         <td class="text-center">
                             <a th:if="${user.enabled == true }" class="fa-sharp fa-solid fa-circle-check fa-2x icon-green "
-                                th:href="@{'/users/' + ${user.id} + '/enabled/false'}" title="Disable this user"></a>
+                               th:href="@{'/users/' + ${user.id} + '/enabled/false'}" title="Disable this user"></a>
                             <a th:if="${user.enabled == false }" class="fa-sharp fa-solid fa-circle fa-2x icon-gray"
-                                th:href="@{'/users/' + ${user.id} + '/enabled/true'}" title="Enable this user"></a>
+                               th:href="@{'/users/' + ${user.id} + '/enabled/true'}" title="Enable this user"></a>
 
                         </td>
                         <td class="text-center">
@@ -103,78 +104,80 @@
                                title="Delete this user"></a>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
 
-        <div class="less-details">
-            <div th:each="user : ${listUsers}" class="row m-1">
-                <div class="col-4">
-                    <img th:if = "${user.photos == null}" th:src = "@{/images/default-user.png}" style="width: 100px"/>
-                    <img th:if="${user.photos != null}" th:src="@{${user.getPhotosImagePath()}}" style="width: 100px"/>
-                </div>
-
-                <div class="col-8">
-                    <div>[[${user.fullName}]]</div>
-                    <div>[[${user.roles}]]</div>
-                    <div class="mt-1">
-                        <a th:if="${user.enabled == true }" class="fa-sharp fa-solid fa-circle-check fa-2x icon-green m-1 "
-                           th:href="@{'/users/' + ${user.id} + '/enabled/false'}" title="Disable this user"></a>
-                        <a th:if="${user.enabled == false }" class="fa-sharp fa-solid fa-circle fa-2x icon-gray m-1"
-                           th:href="@{'/users/' + ${user.id} + '/enabled/true'}" title="Enable this user"></a>
-                        <a class="fa-solid fa-pen-to-square fa-2x icon-green m-1" th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
-                        <a class="fa-sharp fa-solid fa-trash fa-2x icon-gray link-delete my-1"
-                           th:userId = "${user.id}"
-                           th:href="@{'/users/delete/' + ${user.id}}"
-                           title="Delete this user"></a>
+            <div class="less-details">
+                <div th:each="user : ${listUsers}" class="row m-1">
+                    <div class="col-4">
+                        <img th:if = "${user.photos == null}" th:src = "@{/images/default-user.png}" style="width: 100px"/>
+                        <img th:if="${user.photos != null}" th:src="@{${user.getPhotosImagePath()}}" style="width: 100px"/>
                     </div>
 
+                    <div class="col-8">
+                        <div>[[${user.fullName}]]</div>
+                        <div>[[${user.roles}]]</div>
+                        <div class="mt-1">
+                            <a th:if="${user.enabled == true }" class="fa-sharp fa-solid fa-circle-check fa-2x icon-green m-1 "
+                               th:href="@{'/users/' + ${user.id} + '/enabled/false'}" title="Disable this user"></a>
+                            <a th:if="${user.enabled == false }" class="fa-sharp fa-solid fa-circle fa-2x icon-gray m-1"
+                               th:href="@{'/users/' + ${user.id} + '/enabled/true'}" title="Enable this user"></a>
+                            <a class="fa-solid fa-pen-to-square fa-2x icon-green m-1" th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
+                            <a class="fa-sharp fa-solid fa-trash fa-2x icon-gray link-delete my-1"
+                               th:userId = "${user.id}"
+                               th:href="@{'/users/delete/' + ${user.id}}"
+                               title="Delete this user"></a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!--        pagination-->
+            <div class="text-center m-1">
+                <span>Showing user number # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+            </div>
+            <nav>
+                <ul class="pagination justify-content-center flex-wrap">
+                    <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/1?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">First</a></li>
+                    <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">Previous</a></li>
+
+
+                    <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each = "i : ${#numbers.sequence(1,totalPages)}">
+                        <a class="page-link" th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                    </li>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/' + ${currentPage+ 1} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">Next</a></li>
+                    <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/' + ${totalPages} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}" >Last</a></li>
+
+                </ul>
+            </nav>
+
+            <!--        modal confirm delete -->
+            <div class="modal fade text-center" id="confirmDialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Delete Confirmation</h4>
+                            <button type="button" class="btn-close"  data-bs-dismiss="modal" ></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="confirmText"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <a  class="btn btn-success" href="" id="confirmButton">Yes</a>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-        </div>
-
-<!--        pagination-->
-        <div class="text-center m-1">
-            <span>Showing user number # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
-        </div>
-        <nav>
-            <ul class="pagination justify-content-center flex-wrap">
-                <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/1?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">First</a></li>
-                <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">Previous</a></li>
-
-
-                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each = "i : ${#numbers.sequence(1,totalPages)}">
-                    <a class="page-link" th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-                </li>
-
-                <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/' + ${currentPage+ 1} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">Next</a></li>
-                <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/' + ${totalPages} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}" >Last</a></li>
-
-            </ul>
-        </nav>
-
-<!--        modal confirm delete -->
-        <div class="modal fade text-center" id="confirmDialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Delete Confirmation</h4>
-                        <button type="button" class="btn-close"  data-bs-dismiss="modal" ></button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="confirmText"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <a  class="btn btn-success" href="" id="confirmButton">Yes</a>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div th:replace="fragments :: footer"></div>
-    </div>
+
 <script type="text/javascript">
     $(document).ready(function (){
         $(".link-delete").on("click" , function(e){

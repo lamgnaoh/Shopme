@@ -1,173 +1,174 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <head th:replace="fragments :: page_head('Account Detail')"></head>
-<body>
-    <div class="container-fluid vh-100">
-        <!-- navigation -->
+<body class="d-flex flex-column h-100">
+    <!-- navigation -->
+    <div th:replace="navigation :: menu"></div>
+    <div class="container-fluid">
 
-        <div th:replace="navigation :: menu"></div>
 
-        <div th:if="${message != null}" class="alert alert-success text-center mt-2" id="messageBlock">
-            [[${message}]]
-        </div>
-
-        <!-- Create Form -->
-        <form  th:action = "@{/account/update}" method="post" id="formSubmit"
-              style="max-width: 700px; margin: 0 auto" th:object="${user}"
-               enctype="multipart/form-data">
-            <div class="text-center my-3">
-                <h2>Account Detail</h2>
+            <div th:if="${message != null}" class="alert alert-success text-center mt-2" id="messageBlock">
+                [[${message}]]
             </div>
-            <input type="hidden" name="id" id="userId"  th:field="${user.id}">
-                <div class="border border-secondary rounded p-3">
-                    <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label" for="emailInput">Email:</label>
-                        <div class="col-sm-8">
-                            <input type="email" class="form-control "  id="emailInput" th:field="${user.email}" disabled/>
-                        </div>
-                    </div>
 
-                    <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label" for="firstNameInput">First Name:</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control"  id="firstNameInput" th:field="${user.firstName}" required minlength="1" maxlength="45" placeholder="First name must between 1 and 45 characters"/>
-                        </div>
-
-                    </div>
-
-                    <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label" for="lastNameInput">Last Name:</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control"  id="lastNameInput" th:field="${user.lastName}" required minlength="1" maxlength="45" placeholder="Last name must between 1 and 45 characters"/>
-                        </div>
-
-                    </div>
-
-                    <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label">Password:</label>
-                        <div class="col-sm-8">
-                            <input id="password" name="password" type="password" th:field="${user.password}" class="form-control" placeholder="Leave blank if you dont want to change your password" minlength="8" maxlength="20">
-                        </div>
-                    </div>
-
-                    <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label">Confirm password:</label>
-                        <div class="col-sm-8">
-                            <input type="password"  id="confirmPassword" name="confirmPassword" class="form-control" minlength="8"
-                                   maxlength="20"
-                                   >
-                        </div>
-                    </div>
-
-                    <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label">Assigned Roles:</label>
-                        <div class="col-sm-8">
-                            <span class="fs-5">
-                                [[${user.roles}]]
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="row input-group p-3">
-                        <label class="col-sm-4 form-label" >Photos:</label>
-                        <div class="col-sm-8">
-                            <input type="hidden" th:field="${user.photos}">
-                            <input type="file"  id="fileImage" name="image" accept="image/png ,image/jpeg" class="mb-2">
-                            <img th:src = "@{${user.getPhotosImagePath()}}" alt="Photo preview" id="thumbnail" class="img-fluid">
-                        </div>
-                    </div>
-
-
-                    <div class="text-end p-3">
-                        <input type="submit" value="Save" class="btn btn-primary m-2" />
-                        <input type="button" value="Cancel" class="btn btn-secondary" id="cancelButton" />
-                    </div>
+            <!-- Create Form -->
+            <form  th:action = "@{/account/update}" method="post" id="formSubmit"
+                  style="max-width: 600px" th:object="${user}"
+                   class="my-4 mx-auto"
+                   enctype="multipart/form-data">
+                <div class="text-center my-3">
+                    <h2>Account Detail</h2>
                 </div>
+                <input type="hidden" name="id" id="userId"  th:field="${user.id}">
+                    <div class="border border-secondary rounded p-3">
+                        <div class="row input-group p-3">
+                            <label class="col-sm-4 form-label" for="emailInput">Email:</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control "  id="emailInput" th:field="${user.email}" disabled/>
+                            </div>
+                        </div>
 
-        </form>
+                        <div class="row input-group p-3">
+                            <label class="col-sm-4 form-label" for="firstNameInput">First Name:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control"  id="firstNameInput" th:field="${user.firstName}" required minlength="1" maxlength="45" placeholder="First name must between 1 and 45 characters"/>
+                            </div>
 
-    </div>
-<!--    footer-->
-    <div th:replace="fragments :: footer"></div>
-    <script>
+                        </div>
 
-   $(document).ready(function(){
-       // code validate password match
-        const passwordBox = $("#password");
-        const confirmBox = $("#confirmPassword");
-        const errorMsg =  $('<span id="error_msg" class="text-danger">Passwords do not match.Please check again</span>');
+                        <div class="row input-group p-3">
+                            <label class="col-sm-4 form-label" for="lastNameInput">Last Name:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control"  id="lastNameInput" th:field="${user.lastName}" required minlength="1" maxlength="45" placeholder="Last name must between 1 and 45 characters"/>
+                            </div>
+
+                        </div>
+
+                        <div class="row input-group p-3">
+                            <label class="col-sm-4 form-label">Password:</label>
+                            <div class="col-sm-8">
+                                <input id="password" name="password" type="password" th:field="${user.password}" class="form-control" placeholder="Leave blank if you dont want to change your password" minlength="8" maxlength="20">
+                            </div>
+                        </div>
+
+                        <div class="row input-group p-3">
+                            <label class="col-sm-4 form-label">Confirm password:</label>
+                            <div class="col-sm-8">
+                                <input type="password"  id="confirmPassword" name="confirmPassword" class="form-control" minlength="8"
+                                       maxlength="20"
+                                       >
+                            </div>
+                        </div>
+
+                        <div class="row input-group p-3">
+                            <label class="col-sm-4 form-label">Assigned Roles:</label>
+                            <div class="col-sm-8">
+                                <span class="fs-5">
+                                    [[${user.roles}]]
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row input-group p-3">
+                            <label class="col-sm-4 form-label" >Photos:</label>
+                            <div class="col-sm-8">
+                                <input type="hidden" th:field="${user.photos}">
+                                <input type="file"  id="fileImage" name="image" accept="image/png ,image/jpeg" class="mb-2">
+                                <img th:src = "@{${user.getPhotosImagePath()}}" alt="Photo preview" id="thumbnail" class="img-fluid">
+                            </div>
+                        </div>
+
+
+                        <div class="text-end p-3">
+                            <input type="submit" value="Save" class="btn btn-primary m-2" />
+                            <input type="button" value="Cancel" class="btn btn-secondary" id="cancelButton" />
+                        </div>
+                    </div>
+
+            </form>
+
+        </div>
+    <!--    footer-->
+        <div th:replace="fragments :: footer"></div>
+        <script>
+
+       $(document).ready(function(){
+           // code validate password match
+            const passwordBox = $("#password");
+            const confirmBox = $("#confirmPassword");
+            const errorMsg =  $('<span id="error_msg" class="text-danger">Passwords do not match.Please check again</span>');
 
 
 
-        function checkMatchingPasswords(){
-            if(confirmBox.val() !== "" && passwordBox.val !== ""){
-                if( confirmBox.val() !== passwordBox.val() ){
-                    errorMsg.insertAfter(confirmBox);
-                    confirmBox.addClass("is-invalid")
-                    passwordBox.addClass("is-invalid")
-                }else{
-                    confirmBox.addClass("is-valid").removeClass("is-invalid")
-                    passwordBox.addClass("is-valid").removeClass("is-invalid")
+            function checkMatchingPasswords(){
+                if(confirmBox.val() !== "" && passwordBox.val !== ""){
+                    if( confirmBox.val() !== passwordBox.val() ){
+                        errorMsg.insertAfter(confirmBox);
+                        confirmBox.addClass("is-invalid")
+                        passwordBox.addClass("is-invalid")
+                    }else{
+                        confirmBox.addClass("is-valid").removeClass("is-invalid")
+                        passwordBox.addClass("is-valid").removeClass("is-invalid")
+                    }
+
                 }
-
             }
-        }
 
-        function resetPasswordError(){
-            const $errorCont = $("#error_msg");
-            if($errorCont.length > 0){
-                $errorCont.remove();
+            function resetPasswordError(){
+                const $errorCont = $("#error_msg");
+                if($errorCont.length > 0){
+                    $errorCont.remove();
+                }
             }
-        }
 
 
-        $("#confirmPassword, #password")
-            .on("keydown", function(e){
-                /* only check when the tab or enter keys are pressed
-                 * to prevent the method from being called needlessly  */
-                if(e.keyCode === 13 || e.keyCode === 9) {
+            $("#confirmPassword, #password")
+                .on("keydown", function(e){
+                    /* only check when the tab or enter keys are pressed
+                     * to prevent the method from being called needlessly  */
+                    if(e.keyCode === 13 || e.keyCode === 9) {
+                        checkMatchingPasswords();
+                    }
+                })
+                .on("blur", function(){
+                    // also check when the element looses focus (clicks somewhere else)
                     checkMatchingPasswords();
+                })
+                .on("focus", function(){
+                    // reset the error message when they go to make a change
+                    resetPasswordError();
+                })
+
+           setTimeout(() =>{
+               const el = $("#messageBlock").get(0)
+               el.style.display = "none";
+           },3000);
+
+        });
+
+        $("#cancelButton").on("click", function (){
+            window.location = "[[@{/}]]"
+        })
+
+    // validate file size
+        $("#fileImage").change(function (){
+            const file = this.files[0];
+            const fileSize = this.files[0].size;
+            if(fileSize > 1048576){
+                this.setCustomValidity("You must choose an image less than 1 MB");
+                this.reportValidity();
+            } else {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#thumbnail").attr("src" , e.target.result);
                 }
-            })
-            .on("blur", function(){
-                // also check when the element looses focus (clicks somewhere else)
-                checkMatchingPasswords();
-            })
-            .on("focus", function(){
-                // reset the error message when they go to make a change
-                resetPasswordError();
-            })
-
-       setTimeout(() =>{
-           const el = $("#messageBlock").get(0)
-           el.style.display = "none";
-       },3000);
-
-    });
-
-    $("#cancelButton").on("click", function (){
-        window.location = "[[@{/}]]"
-    })
-
-// validate file size
-    $("#fileImage").change(function (){
-        const file = this.files[0];
-        const fileSize = this.files[0].size;
-        if(fileSize > 1048576){
-            this.setCustomValidity("You must choose an image less than 1 MB");
-            this.reportValidity();
-        } else {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                $("#thumbnail").attr("src" , e.target.result);
+                reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(file);
-        }
-    })
+        })
 
 
 
-</script>
+    </script>
 </body>
 </html>
 

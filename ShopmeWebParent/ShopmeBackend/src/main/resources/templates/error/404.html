@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:sec = "http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace = "fragments :: page_head('Error - Shopme Admin')"></head>
-<body>
-    <div class="container-fluid vh-100">
-      <!-- navigation -->
+<body class="d-flex flex-column h-100">
+<!-- navigation -->
 
-      <div th:replace="navigation :: menu"></div>
+<div th:replace="navigation :: menu"></div>
+<div class="container-fluid">
 
         <div class="m-3">
             <h2>Sorry , the requested page could not be found </h2>

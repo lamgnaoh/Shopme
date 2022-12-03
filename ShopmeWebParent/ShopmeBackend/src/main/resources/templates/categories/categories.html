@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Categories - Shopme Admin')"></head>
+
+<body class="d-flex flex-column h-100">
+    <!--navigation-->
+    <div th:replace="navigation :: menu"></div>
+    <div class="container-fluid">
+        <div>
+            <h2>Manage Categories</h2>
+            <a class="btn btn-primary p-2 my-2" th:href="@{/categories/new}">Create new categories</a>
+        </div>
+
+        <div>
+            <form th:action="@{/categories/page/1}" class="d-flex flex-row align-items-center flex-wrap my-3">
+                Filter: &nbsp;
+                <input type="search" name="keyword" class="form-control w-auto d-inline-block" th:value="${keyword}" required >
+                &nbsp; &nbsp;
+                <input type="submit" value="Search" class="btn btn-primary" >
+                &nbsp; &nbsp;
+                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()" >
+            </form>
+
+        </div>
+        <div class="full-details">
+            <table class="table table-responsive-xl table-bordered table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Category Image</th>
+                        <th>Category Name</th>
+                        <th>Alias</th>
+                        <th>Enabled</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cat : ${listCategories}">
+                        <td>[[${cat.id}]]</td>
+                        <td></td>
+                        <td>[[${cat.name}]]</td>
+                        <td>[[${cat.alias}]]</td>
+                        <td class="text-center">
+                            <a th:if="${cat.enabled == true }" class="fa-sharp fa-solid fa-circle-check fa-2x icon-green "
+                               th:href="@{'/categories/' + ${cat.id} + '/enabled/false'}" title="Disable this user"></a>
+                            <a th:if="${cat.enabled == false }" class="fa-sharp fa-solid fa-circle fa-2x icon-gray"
+                               th:href="@{'/categories/' + ${cat.id} + '/enabled/true'}" title="Enable this user"></a>
+
+                        </td>
+                        <td class="text-center">
+                            <a class="fa-solid fa-pen-to-square fa-2x icon-green" th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this Categories"></a>
+                            <a class="fa-sharp fa-solid fa-trash fa-2x icon-gray link-delete"
+                               th:catId = "${cat.id}"
+                               th:href="@{'/categories/delete/' + ${cat.id}}"
+                               title="Delete this category"></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!--footer-->
+    <div th:replace="fragments :: footer"></div>
+
+</body>
+</html>
