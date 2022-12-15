@@ -22,6 +22,12 @@
             </form>
 
         </div>
+
+        <div th:if="${message != null}" class="alert alert-success text-center" id="messageBlock">
+            [[${message}]]
+        </div>
+
+
         <div class="full-details">
             <table class="table table-responsive-xl table-bordered table-striped table-hover">
                 <thead class="table-dark">
@@ -29,6 +35,7 @@
                         <th>ID</th>
                         <th>Category Image</th>
                         <th>Category Name</th>
+                        <th>Parent Category Name</th>
                         <th>Alias</th>
                         <th>Enabled</th>
                         <th></th>
@@ -37,8 +44,11 @@
                 <tbody>
                     <tr th:each="cat : ${listCategories}">
                         <td>[[${cat.id}]]</td>
-                        <td></td>
+                        <td>
+                            <img th:src="@{${cat.imagePath}}" style="width: 100px" class="img-fluid">
+                        </td>
                         <td>[[${cat.name}]]</td>
+                        <td>[[${cat.parentName}]]</td>
                         <td>[[${cat.alias}]]</td>
                         <td class="text-center">
                             <a th:if="${cat.enabled == true }" class="fa-sharp fa-solid fa-circle-check fa-2x icon-green "

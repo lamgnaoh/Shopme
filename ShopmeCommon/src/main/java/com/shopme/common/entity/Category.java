@@ -93,6 +93,14 @@ public class Category {
         return parent;
     }
 
+    public String getParentName(){
+        if(this.parent == null){
+            return "null";
+        } else{
+            return this.parent.getName();
+        }
+    }
+
     public void setParent(Category parent) {
         this.parent = parent;
     }
@@ -103,6 +111,23 @@ public class Category {
 
     public void setChildren(Set<Category> children) {
         this.children = children;
+    }
+    @Transient
+    public String getImagePath(){
+        if(this.id == null){
+            return "/images/image-thumbnail.png";
+        }
+        return "/category-images/" + this.id + "/" + this.image;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", alias='" + alias + '\'' +
+                ", image='" + image + '\'' +
+                ", enabled=" + enabled ;
     }
 }
 

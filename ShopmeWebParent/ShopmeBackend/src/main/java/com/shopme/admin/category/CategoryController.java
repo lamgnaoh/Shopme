@@ -1,12 +1,22 @@
 package com.shopme.admin.category;
 
+import com.shopme.admin.utils.FileUploadUtil;
 import com.shopme.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class CategoryController {
@@ -30,6 +40,44 @@ public class CategoryController {
         model.addAttribute("pageTitle", "Create New Category");
 
         return "categories/category_form";
+    }
+
+    @PostMapping("/categories/save")
+    public String saveCategory(Category category,
+                               @RequestParam("fileImage") MultipartFile multipartFile,
+                               RedirectAttributes ra) throws IOException {
+
+        if(!multipartFile.isEmpty()){
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            category.setImage(fileName);
+
+            Category savedCategory = categoryService.save(category);
+            String uploadDir = "../category-images/" + savedCategory.getId();
+            FileUploadUtil.cleanDir(uploadDir);
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+        } else {
+
+            categoryService.save(category);
+        }
+        ra.addFlashAttribute("message", "The category has been saved successfully.");
+        return "redirect:/categories";
+    }
+
+    @GetMapping("/categories/edit/{id}")
+    public String editCategory(@PathVariable("id") int categoryId , RedirectAttributes re, Model model){
+        try {
+            Category category = categoryService.getCategory(categoryId);
+            System.out.println(category.toString());
+            List<Category> listCategories = categoryService.listAll();
+            model.addAttribute("listCategories", listCategories);
+            model.addAttribute("category" , category);
+            model.addAttribute("pageTitle", "Edit Category " + categoryId + " )");
+            return "categories/category_form";
+        } catch (CategoryNotFoundException e) {
+            re.addFlashAttribute("message" , e.getMessage());
+            return "redirect:/categories";
+        }
     }
 
 
