@@ -29,6 +29,9 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private Set<Category> children = new HashSet<>();
 
+    @Transient
+    private boolean hasChildren;
+
 
     public Category() {
     }
@@ -124,6 +127,14 @@ public class Category {
             return "/images/image-thumbnail.png";
         }
         return "/category-images/" + this.id + "/" + this.image;
+    }
+
+    public boolean isHasChildren() {
+        return hasChildren;
+    }
+
+    public void setHasChildren(boolean hasChildren) {
+        this.hasChildren = hasChildren;
     }
 
     @Override
