@@ -11,7 +11,7 @@
 
 		<form th:action="@{/categories/save}" method="post" style="max-width: 600px"
 			  class="my-4 mx-auto"
-			enctype="multipart/form-data"
+			enctype="multipart/form-data" onsubmit="return checkUnique(this)"
 			th:object="${category}">
 			<input type="hidden" th:field="*{id}" />
 			<div class="border border-secondary rounded p-3">
@@ -96,6 +96,35 @@
 
 <script type="text/javascript">
 	moduleURL = "[[@{/categories}]]";
+
+	function checkUnique(form) {
+		catId = $("#id").val();
+		catName = $("#name").val();
+		catAlias = $("#alias").val();
+
+		csrfValue = $("input[name='_csrf']").val();
+
+		url = "[[@{/categories/check_unique}]]";
+
+		params = {id: catId, name: catName, alias: catAlias, _csrf: csrfValue};
+
+		$.post(url, params, function(response) {
+			if (response === "OK") {
+				form.submit();
+			} else if (response === "DuplicateName") {
+				showModalDialog("Warning" , "There is another category having same name " + catName);
+			} else if (response === "DuplicateAlias") {
+				showModalDialog("Warning" , "There is another category having same alias " + catAlias);
+			} else {
+				showModalDialog("Error" , "Unknown response from server");
+			}
+
+		}).fail(function() {
+			showModalDialog("Error" , "Could not connect to the server");
+		});
+
+		return false;
+	}
 
 </script>
 <script th:src="@{/js/main.js}"></script>

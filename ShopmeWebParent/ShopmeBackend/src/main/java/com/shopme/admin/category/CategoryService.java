@@ -29,4 +29,29 @@ public class CategoryService {
             throw new CategoryNotFoundException("Could not find any category with id " + categoryId);
         }
     }
+
+//    Kiểm tra category name và alias có unique không
+    public String checkUnique(Integer id , String name , String alias){
+        boolean isCreatingNew = (id == null || id == 0);
+        Category categoryByName = categoryRepository.findByName(name);
+        Category categoryByAlias = categoryRepository.findByAlias(alias);
+
+        //   tạo mới category
+        if(isCreatingNew){
+            if(categoryByName != null){
+                return "DuplicateName";
+            }else{
+                if(categoryByAlias != null){
+                    return "DuplicateAlias";
+                }
+            }
+        } else { //  edit category
+            if(categoryByName != null && categoryByName.getId() != id){
+                return "DuplicateName";
+            } else if (categoryByAlias != null && categoryByAlias.getId() != id){
+                return "DuplicateAlias";
+            }
+        }
+        return "OK";
+    }
 }

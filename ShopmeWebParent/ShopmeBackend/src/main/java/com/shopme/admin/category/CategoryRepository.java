@@ -5,4 +5,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface CategoryRepository extends PagingAndSortingRepository<Category, Integer> {
 
+    Category findByName(String name);
+
+    Category findByAlias(String alias);
 }

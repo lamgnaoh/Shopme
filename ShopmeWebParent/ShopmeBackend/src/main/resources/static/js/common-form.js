@@ -17,3 +17,11 @@ $("#fileImage").change(function (){
         reader.readAsDataURL(file);
     }
 })
+
+function showModalDialog(title , message){
+    $("#modalTitle").text(title);
+    $("#modalBody").text(message);
+    // khoi tao 1 modal dialog
+    var modal = new bootstrap.Modal($("#modalDialog") , {});
+    modal.show();
+}
