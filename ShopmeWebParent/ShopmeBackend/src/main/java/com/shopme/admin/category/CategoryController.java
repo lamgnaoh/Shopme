@@ -24,16 +24,21 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/categories")
-    public String listAll(Model model) {
-        List<Category> listCategories = categoryService.listAll();
+    public String listAll(Model model , @RequestParam(required = false) String sortDir) {
+        if (sortDir ==  null || sortDir.isEmpty()) {
+            sortDir = "asc";
+        }
+        List<Category> listCategories = categoryService.listAll(sortDir);
+        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
         model.addAttribute("listCategories", listCategories);
+        model.addAttribute("reverseSortDir", reverseSortDir);
 
         return "categories/categories";
     }
 
     @GetMapping("/categories/new")
     public String newCategory(Model model) {
-        List<Category> listCategories = categoryService.listAll();
+        List<Category> listCategories = categoryService.listAll("asc");
 
         model.addAttribute("category", new Category());
         model.addAttribute("listCategories", listCategories);
@@ -69,7 +74,7 @@ public class CategoryController {
         try {
             Category category = categoryService.getCategory(categoryId);
             System.out.println(category.toString());
-            List<Category> listCategories = categoryService.listAll();
+            List<Category> listCategories = categoryService.listAll("asc");
             model.addAttribute("listCategories", listCategories);
             model.addAttribute("category" , category);
             model.addAttribute("pageTitle", "Edit Category " + categoryId + " )");
