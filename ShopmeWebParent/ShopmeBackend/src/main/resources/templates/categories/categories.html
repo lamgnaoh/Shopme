@@ -62,15 +62,20 @@
                         </td>
                         <td class="text-center">
                             <a class="fa-solid fa-pen-to-square fa-2x icon-green" th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this Categories"></a>
-                            <a class="fa-sharp fa-solid fa-trash fa-2x icon-gray link-delete"
-                               th:catId = "${cat.id}"
-                               th:href="@{'/categories/delete/' + ${cat.id}}"
-                               title="Delete this category"></a>
+                            <th:block th:if="${(cat.children.size() > 0) == false}">
+                                <a class="fa-sharp fa-solid fa-trash fa-2x icon-gray link-delete"
+                                   th:catId = "${cat.id}"
+                                   th:href="@{'/categories/delete/' + ${cat.id}}"
+                                   title="Delete this category"></a>
+                            </th:block>
+
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <div th:replace="modal_fragments :: confirm_modal" />
 
     </div>
 
@@ -78,4 +83,29 @@
     <div th:replace="fragments :: footer"></div>
 
 </body>
+
+<script type="text/javascript">
+    moduleURL = "[[@{/categories}]]";
+
+    $(document).ready(function (){
+        $(".link-delete").on("click" , function(e){
+            e.preventDefault();
+            catId = $(this).attr("catId")
+            $("#confirmText").text("Are you sure want to delete this category with id : " + catId);
+
+            // set href yes button to delete category url
+            $("#confirmButton").attr("href" , $(this).attr("href"));
+
+            var modal = new bootstrap.Modal($("#confirmDialog") , {});
+            modal.show();
+        })
+
+        if($("#messageBlock")){
+            setTimeout(() =>{
+                const el = $("#messageBlock");
+                el.css("display", "none");
+            },3000);
+        }
+    })
+</script>
 </html>

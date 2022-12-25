@@ -1,5 +1,7 @@
 package com.shopme.admin.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -10,6 +12,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class FileUploadUtil {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadUtil.class);
     public static void saveFile(String uploadDir , String fileName , MultipartFile multipartFile) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
         if(!Files.exists(uploadPath)){
@@ -24,6 +28,7 @@ public class FileUploadUtil {
         }
     }
 
+    // delete tất cả file trong directory
     public static void cleanDir(String dir){
         Path dirPath = Paths.get(dir);
         try{
@@ -32,12 +37,23 @@ public class FileUploadUtil {
                     try {
                         Files.delete(file);
                     } catch (IOException e) {
-                        System.out.println("Could not delete file: " + file);
+                        LOGGER.error("Could not delete file: " + file);
                     }
                 }
             });
         } catch(IOException e){
-            System.out.println("Could not list directory :" + dirPath);
+           LOGGER.error("Could not list directory :" + dirPath);
+        }
+
+    }
+// remove directory
+    public static void removeDir(String dir) {
+        cleanDir(dir);
+
+        try {
+            Files.delete(Paths.get(dir)); // delete chính directory đó
+        } catch (IOException e) {
+            LOGGER.error("Could not remove directory: " + dir);
         }
 
     }

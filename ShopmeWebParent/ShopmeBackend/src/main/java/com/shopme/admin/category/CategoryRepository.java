@@ -21,4 +21,6 @@ public interface CategoryRepository extends PagingAndSortingRepository<Category,
     @Query("UPDATE Category c SET c.enabled = :enabled WHERE c.id = :id")
     @Modifying
     void updateEnabledStatus(@Param("id") Integer id, @Param("enabled") boolean enabled);
+
+    long countById(Integer id);
 }
