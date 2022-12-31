@@ -8,20 +8,10 @@
     <div class="container-fluid">
         <div>
             <h2>Manage Categories</h2>
-            <a class="btn btn-primary p-2 my-2" th:href="@{/categories/new}">Create new categories</a>
+            <a class="fas fa-folder-plus btn btn-primary p-2 my-2" th:href="@{/categories/new}"></a>
         </div>
 
-        <div>
-            <form th:action="@{/categories/page/1}" class="d-flex flex-row align-items-center flex-wrap my-3">
-                Filter: &nbsp;
-                <input type="search" name="keyword" class="form-control w-auto d-inline-block" th:value="${keyword}" required >
-                &nbsp; &nbsp;
-                <input type="submit" value="Search" class="btn btn-primary" >
-                &nbsp; &nbsp;
-                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()" >
-            </form>
-
-        </div>
+        <div th:replace="fragments :: search_form('/categories/page/1')"></div>
 
         <div th:if="${message != null}" class="alert alert-success text-center" id="messageBlock">
             [[${message}]]
@@ -81,19 +71,19 @@
         <nav>
             <ul class="pagination justify-content-center flex-wrap">
                 <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/categories/page/1?sortField=' + ${sortField}+  '&sortDir=' + ${sortDir}}">First</a>
+                    <a class="page-link" th:href="@{'/categories/page/1?sortField=' + ${sortField}+  '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}">First</a>
                 </li>
                 <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${currentPage - 1} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">Previous</a>
+                    <a class="page-link" th:href="@{'/categories/page/' + ${currentPage - 1} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}">Previous</a>
                 </li>
 
 
                 <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each = "i : ${#numbers.sequence(1,totalPages)}">
-                    <a class="page-link" th:href="@{'/categories/page/' + ${i} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                    <a class="page-link" th:href="@{'/categories/page/' + ${i} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}">[[${i}]]</a>
                 </li>
 
-                <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/categories/page/' + ${currentPage+ 1} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}">Next</a></li>
-                <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/categories/page/' + ${totalPages} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir}}" >Last</a></li>
+                <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/categories/page/' + ${currentPage+ 1} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}">Next</a></li>
+                <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled'}"><a class="page-link" th:href="@{'/categories/page/' + ${totalPages} + '?sortField=' + ${sortField}+ '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword: ''}}" >Last</a></li>
 
             </ul>
         </nav>
@@ -130,5 +120,9 @@
             },3000);
         }
     })
+
+    function clearFilter(){
+        window.location = "[[@{/categories/}]]";
+    }
 </script>
 </html>

@@ -15,8 +15,29 @@
 
 </head>
 <body>
+<!-- footer -->
     <footer class="footer mt-auto py-3 bg-dark text-center" th:fragment="footer">
         <p class="text-white">Shopme Control Panel - Copyright &copy; Shopme</p>
     </footer>
+
+
+<!--    search form -->
+
+    <div th:fragment="search_form(moduleURL)">
+        <form th:action="@{${moduleURL}}" class="d-flex flex-row align-items-center flex-wrap my-3">
+            <input type="hidden" name="sortField" th:value="${sortField}">
+            <input type="hidden" name="sortDir" th:value="${sortDir}">
+            Filter: &nbsp;
+            <input type="search" name="keyword" class="form-control w-auto d-inline-block" th:value="${keyword}" required >
+            &nbsp; &nbsp;
+            <button type="submit"  class="btn btn-primary" >
+                <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+            </button>
+            &nbsp; &nbsp;
+            <button type="button"  class="btn btn-secondary" onclick="clearFilter()" >
+                <i class="fa-solid fa-delete-left"></i>
+            </button>
+        </form>
+    </div>
 </body>
 </html>

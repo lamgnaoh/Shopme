@@ -35,7 +35,7 @@ public class CategoryService {
         return listHierarchicalCategories(rootCategories, sortDir);
     }
 
-    public List<Category> listByPage(CategoryPageInfo pageInfo, int pageNum, String sortDir) {
+    public List<Category> listByPage(CategoryPageInfo pageInfo, int pageNum, String sortDir , String keyword) {
         Sort sort = Sort.by("name");
 
         if (sortDir.equals("asc")) {
@@ -46,13 +46,29 @@ public class CategoryService {
 
         Pageable pageable = PageRequest.of(pageNum - 1, ROOT_CATEGORIES_PER_PAGE, sort);
 
-        Page<Category> pageCategories = categoryRepository.findRootCategories(pageable);
+        Page<Category> pageCategories = null;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            pageCategories = categoryRepository.search(keyword, pageable);
+        } else {
+            pageCategories = categoryRepository.findRootCategories(pageable);
+        }
+
         List<Category> rootCategories = pageCategories.getContent();
 
         pageInfo.setTotalElements(pageCategories.getTotalElements());
         pageInfo.setTotalPages(pageCategories.getTotalPages());
 
-        return listHierarchicalCategories(rootCategories, sortDir);
+        if (keyword != null && !keyword.isEmpty()) {
+            for (Category category : rootCategories) {
+                category.setHasChildren(category.getChildren().size() > 0);
+            }
+
+            return rootCategories;
+
+        } else {
+            return listHierarchicalCategories(rootCategories, sortDir);
+        }
     }
 
 //    list category theo cây

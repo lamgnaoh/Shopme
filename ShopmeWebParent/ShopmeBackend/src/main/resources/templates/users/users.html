@@ -8,20 +8,9 @@
 
         <div class="container-fluid">
             <h2>Manage Users</h2>
-            <a class="btn btn-primary p-2 my-2" th:href="@{/users/new}">Create new user</a>
+            <a class="fas fa-folder-plus btn btn-primary p-2 my-2" th:href="@{/users/new}"></a>
 
-            <div >
-                <form th:action="@{/users/page/1}" class="d-flex flex-row align-items-center flex-wrap my-3">
-                    <input type="hidden" name="sortField" th:value="${sortField}">
-                    <input type="hidden" name="sortDir" th:value="${sortDir}">
-                    Filter: &nbsp;
-                    <input type="search" name="keyword" class="form-control w-auto d-inline-block" th:value="${keyword}" required >
-                    &nbsp; &nbsp;
-                    <input type="submit" value="Search" class="btn btn-primary" >
-                    &nbsp; &nbsp;
-                    <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()" >
-                </form>
-            </div>
+            <div th:replace="fragments :: search_form('/users/page/1')"></div>
 
             <div th:if="${message != null}" class="alert alert-success text-center" id="messageBlock">
                 [[${message}]]
