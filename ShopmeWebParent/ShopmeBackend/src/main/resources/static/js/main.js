@@ -4,3 +4,9 @@ $(document).ready(function () {
         document.logoutForm.submit();
     })
 })
+if($("#messageBlock")){
+    setTimeout(() =>{
+        const el = $("#messageBlock");
+        el.css("display", "none");
+    },3000);
+}
