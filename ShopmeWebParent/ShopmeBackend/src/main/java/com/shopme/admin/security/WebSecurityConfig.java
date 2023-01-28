@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // setting việc access application se can authentication (login)
         http.authorizeHttpRequests()
             .antMatchers("/users/**").hasAuthority("Admin")
-            .antMatchers("/categories/**").hasAnyAuthority("Admin","Editor")
+            .antMatchers("/categories/**","/brands/**").hasAnyAuthority("Admin","Editor")
             .anyRequest().authenticated() // tất cả các request đến đều cần authenticated - cần login
             .and()
                 .formLogin()
