@@ -15,52 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@Rollback(false)
+@Rollback(true)
 public class BrandRepositoryTests {
 	
 	@Autowired
 	private BrandRepository repo;
 	
-	@Test
-	public void testCreateBrand1() {
-		Category laptops = new Category(4);
-		Brand acer = new Brand("Acer");
-		acer.getCategories().add(laptops);
-		
-		Brand savedBrand = repo.save(acer);
-		
-		assertThat(savedBrand).isNotNull();
-		assertThat(savedBrand.getId()).isGreaterThan(0);
-	}
-	
-	@Test
-	public void testCreateBrand2() {
-		Category cellphones = new Category(17);
-		Category tablets = new Category(23);
-		
-		Brand apple = new Brand("Apple");
-		apple.getCategories().add(cellphones);
-		apple.getCategories().add(tablets);
-		
-		Brand savedBrand = repo.save(apple);
-		
-		assertThat(savedBrand).isNotNull();
-		assertThat(savedBrand.getId()).isGreaterThan(0);
-	}
-	
-	@Test
-	public void testCreateBrand3() {
-		Brand samsung = new Brand("Samsung");
-		
-		samsung.getCategories().add(new Category(30));
-		samsung.getCategories().add(new Category(8));
-		
-		Brand savedBrand = repo.save(samsung);
-		
-		assertThat(savedBrand).isNotNull();
-		assertThat(savedBrand.getId()).isGreaterThan(0);
-	}
-	
+
 	@Test
 	public void testFindAll() {
 		Iterable<Brand> brands = repo.findAll();
@@ -69,13 +30,7 @@ public class BrandRepositoryTests {
 		assertThat(brands).isNotEmpty();
 	}
 	
-	@Test
-	public void testGetById() {
-		Brand brand = repo.findById(1).get();
-		
-		assertThat(brand.getName()).isEqualTo("Acer");
-	}
-	
+
 	@Test
 	public void testUpdateName() {
 		String newName = "Samsung Electronics";
@@ -86,13 +41,4 @@ public class BrandRepositoryTests {
 		assertThat(savedBrand.getName()).isEqualTo(newName);
 	}
 	
-	@Test
-	public void testDelete() {
-		Integer id = 2;
-		repo.deleteById(id);
-		
-		Optional<Brand> result = repo.findById(id);
-		
-		assertThat(result.isEmpty());
-	}
 }

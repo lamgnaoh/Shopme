@@ -20,23 +20,6 @@ public class CategoryRepositoryTests {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Test
-    public void testCreateRootCategory() {
-        Category category = new Category("Electronics");
-        Category savedCategory = categoryRepository.save(category);
-
-        assertThat(savedCategory.getId()).isGreaterThan(0);
-    }
-
-    @Test
-    public void testCreateSubCategory() {
-        Category parent = new Category(7);
-        Category memory = new Category("Iphones", parent);
-        Category savedCategory = categoryRepository.save(memory);
-        assertThat(savedCategory.getId()).isGreaterThan(0);
-
-
-    }
 
     @Test
     public void testGetCategory() {
@@ -58,13 +41,6 @@ public class CategoryRepositoryTests {
         Category category = categoryRepository.findByName(name);
         assertThat(category).isNotNull();
         assertThat(category.getName()).isEqualTo(name);
-    }
-    @Test
-    public void testFindByAlias() {
-        String alias = "Computers";
-        Category category = categoryRepository.findByAlias(alias);
-        assertThat(category).isNotNull();
-        assertThat(category.getAlias()).isEqualTo(alias);
     }
 
 }

@@ -37,9 +37,9 @@
 						</td>
 
 						<td>
-							<div th:replace="fragments :: edit('brand', '/brands/edit/' + ${brand.id})" />
+							<div th:replace="fragments :: edit('brand', '/brands/edit/' + ${brand.id})"></div>
 							&nbsp;
-							<div th:replace="fragments :: delete('brand', ${brand.id}, '/brands/delete/' + ${brand.id}, true)" />
+							<div th:replace="fragments :: delete('brand', ${brand.id}, '/brands/delete/' + ${brand.id}, true)"></div>
 						</td>
 					</tr>
 				</tbody>
@@ -51,9 +51,10 @@
 	</div>
 	<div th:replace="fragments :: pagination('/brands', 'brands')"></div>
 
-	<div th:replace="modal_fragments :: confirm_modal" />
+	<div th:replace="modal_fragments :: confirm_modal"></div>
 
 	<div th:replace="fragments :: footer"></div>
+</body>
 <script th:src="@{/js/common_list.js}"></script>
 <script type="text/javascript">
 	moduleURL = "[[@{/brands}]]";
@@ -65,5 +66,4 @@
 		});
 	});
 </script>
-</body>
 </html>

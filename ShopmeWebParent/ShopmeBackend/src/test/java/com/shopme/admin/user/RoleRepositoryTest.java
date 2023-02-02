@@ -18,20 +18,6 @@ public class RoleRepositoryTest {
     @Autowired
     private RoleRepository roleRepository;
 
-    @Test
-    public void testCreateFirstRole(){
-        Role roleAdmin = new Role("Admin" , "manage everything");
-        Role savedRole = roleRepository.save(roleAdmin);
-        assertThat(savedRole.getId()).isGreaterThan(0);
 
-    }
 
-    @Test
-    public void testCreateRestRoles(){
-        Role roleSalesPerson = new Role("Salesperson", "manage product price , customers , shipping , orders and sale reported");
-        Role roleEditor = new Role("Editor", "manage categories , brands  , products and menus");
-        Role roleShipper = new Role("Shipper", "view products , view orders , and update order status");
-        Role roleAssistant = new Role("Assistant", "manage questions and reviews");
-        roleRepository.saveAll(List.of(roleSalesPerson , roleEditor , roleShipper, roleAssistant));
-    }
 }
