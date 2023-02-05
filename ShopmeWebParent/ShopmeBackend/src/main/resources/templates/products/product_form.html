@@ -9,6 +9,7 @@
 	</div>
 			
 	<form th:action="@{/products/save}" method="post"
+		  enctype="multipart/form-data"
 		th:object="${product}" onsubmit="return checkUnique(this)">
 		<input type="hidden" th:field="*{id}" />
 	<div>
@@ -37,7 +38,9 @@
 			<div class="tab-pane" id="description" role="tabpanel">
 				<div th:replace="products/product_description :: content"></div>
 			</div>
-			<div class="tab-pane" id="images" role="tabpanel">Images</div>
+			<div class="tab-pane" id="images" role="tabpanel">
+				<div th:replace="products/product_images :: content"></div>
+			</div>
 				<div class="tab-pane" id="details" role="tabpanel">Details</div>
 			<div class="tab-pane p-3" id="shipping" role="tabpanel">
 				<div th:replace="products/product_shipping :: content"></div>
@@ -61,59 +64,11 @@
 <script type="text/javascript">
 	moduleURL = "[[@{/products}]]";
 	brandModuleURL = "[[@{/brands}]]";
+	defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
+	const checkUniqueUrl = "[[@{/products/check_unique}]]";
 
-	dropdownBrands = $("#brand");
-	dropdownCategories = $("#category");
-
-	$(document).ready(function() {
-		$("#shortDescription").richText();
-		$("#fullDescription").richText();
-
-		dropdownBrands.change(function() {
-			dropdownCategories.empty();
-			getCategories();
-		});
-
-		getCategories();
-	});
-
-
-	function getCategories() {
-		const brandId = dropdownBrands.val();
-		const url = brandModuleURL + "/" + brandId + "/categories";
-
-		$.get(url, function(responseJson) {
-			// console.log(responseJson);
-			$.each(responseJson, function(index, category) {
-				$("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);
-			});
-		});
-	}
-	function checkUnique(form) {
-		const productId = $("#id").val();
-		const productName = $("#name").val();
-
-		const csrfValue = $("input[name='_csrf']").val();
-
-		const url = "[[@{/products/check_unique}]]";
-
-		const params = {id: productId, name: productName, _csrf: csrfValue};
-
-		$.post(url, params, function(response) {
-			if (response === "OK") {
-				form.submit();
-			} else if (response === "Duplicate") {
-				showModalDialog( "Warning ","There is another product having the name " + productName);
-			} else {
-				showModalDialog( "Error","Unknown response from server");
-			}
-
-		}).fail(function() {
-			showModalDialog("Error","Could not connect to the server");
-		});
-
-		return false;
-	}
 </script>
 <script th:src="@{/js/common-form.js}"></script>
+<script th:src="@{/js/product_form.js}"></script>
+
 </html>

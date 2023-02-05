@@ -25,6 +25,9 @@ public class MvcConfig implements WebMvcConfigurer {
 //        brand photos
         exposeDirectory("../brand-logos", registry);
 
+//        product photos
+        exposeDirectory("../product-images", registry);
+
     }
 
     private void exposeDirectory(String pathPattern, ResourceHandlerRegistry registry) {

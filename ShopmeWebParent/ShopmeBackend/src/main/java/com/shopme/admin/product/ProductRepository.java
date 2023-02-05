@@ -11,4 +11,6 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
     @Query("UPDATE Product p SET p.enabled = :enabled WHERE p.id = :id")
     @Modifying
     void updateEnabledStatus(Integer id, boolean enabled);
+
+    Long countById(Integer id);
 }

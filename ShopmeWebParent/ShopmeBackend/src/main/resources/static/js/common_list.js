@@ -3,7 +3,7 @@ function clearFilter() {
 }
 
 function showDeleteConfirmModal(link, entityName) {
-	entityId = link.attr("entityId");
+	const entityId = link.attr("entityId");
 	$("#confirmText").text("Are you sure you want to delete this "
 							 + entityName + " ID " + entityId + "?");
 	// set href yes button to delete user url
