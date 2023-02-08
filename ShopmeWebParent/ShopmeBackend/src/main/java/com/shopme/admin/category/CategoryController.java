@@ -41,6 +41,10 @@ public class CategoryController {
         long startCount = (long) (pageNum - 1) * CategoryService.ROOT_CATEGORIES_PER_PAGE +1;
         long endCount =   startCount + CategoryService.ROOT_CATEGORIES_PER_PAGE -1 ;
 
+        if (endCount > pageInfo.getTotalElements()) {
+            endCount = pageInfo.getTotalElements();
+        }
+
         model.addAttribute("totalPages", pageInfo.getTotalPages());
         model.addAttribute("totalItems", pageInfo.getTotalElements());
         model.addAttribute("currentPage", pageNum);
