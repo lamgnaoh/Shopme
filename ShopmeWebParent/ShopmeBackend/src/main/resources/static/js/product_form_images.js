@@ -13,10 +13,24 @@ $(document).ready(function() {
         });
     });
 
+    $("a[name='linkRemoveExtraImage']").each(function(index) {
+        $(this).click(function() {
+            removeExtraImage(index);
+        });
+    });
+
 });
 
 function showExtraImageThumbnail(fileInput, index) {
     let file = fileInput.files[0];
+
+    let fileName = file.name;
+
+    let imageNameHiddenField = $("#imageName" + index);
+    if (imageNameHiddenField.length) {
+        imageNameHiddenField.val(fileName);
+    }
+
     let reader = new FileReader();
     reader.onload = function(e) {
         $("#extraThumbnail" + index).attr("src", e.target.result);

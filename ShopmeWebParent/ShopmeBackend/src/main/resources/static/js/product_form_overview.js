@@ -10,10 +10,21 @@ $(document).ready(function() {
         getCategories();
     });
 
-    getCategories();
+    getCategoriesForCreateNewProduct();
 
 
 });
+
+function getCategoriesForCreateNewProduct() {
+    let catIdField = $("#categoryId");
+    let editMode = false;
+
+    if (catIdField.length) {
+        editMode = true;
+    }
+
+    if (!editMode) getCategories();
+}
 
 
 function getCategories() {
