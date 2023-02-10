@@ -11,25 +11,49 @@
     </button>
     <div class="collapse navbar-collapse" id="collapeibleNavbar">
       <ul class="navbar-nav d-flex w-100">
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/users}" sec:authorize="hasAuthority('Admin')">Users</a>
-        </li>
-        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/categories}">Categories</a>
-            </li>
+
+        <th:block sec:authorize="hasAuthority('Admin')">
+          <li class="nav-item dropdown me-2">
+            <a class="nav-link dropdown-toggle " style="cursor: pointer" data-bs-toggle="dropdown" data-bs-auto-close="true"
+               th:href="@{/users}" aria-expanded="false">User</a>
+            <div class="dropdown-menu dropdown-menu-end">
+                <a th:href="@{/users/new}"  class="dropdown-item">Create New</a>
+                <a  th:href="@{/users}" class="dropdown-item">View All</a>
+            </div>
+          </li>
         </th:block>
 
         <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/brands}">Brands</a>
-            </li>
+          <li class="nav-item dropdown me-2">
+            <a class="nav-link dropdown-toggle " style="cursor: pointer" data-bs-toggle="dropdown" data-bs-auto-close="true"
+               th:href="@{/categories}"  aria-expanded="false">Categories</a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a th:href="@{/categories/new}"  class="dropdown-item">Create New</a>
+              <a  th:href="@{/categories}" class="dropdown-item">View All</a>
+            </div>
+          </li>
+        </th:block>
+
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+          <li class="nav-item dropdown me-2">
+            <a class="nav-link dropdown-toggle " style="cursor: pointer" data-bs-toggle="dropdown" data-bs-auto-close="true"
+               th:href="@{/brands}"  aria-expanded="false">Brands</a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a th:href="@{/brands/new}"  class="dropdown-item">Create New</a>
+              <a  th:href="@{/brands}" class="dropdown-item">View All</a>
+            </div>
+          </li>
         </th:block>
 
 
-        <th:block sec:authorize="hasAnyAuthority('Admin', 'Salesperson','Editor','Shipper')">
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/products}">Products</a>
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Salesperson', 'Editor', 'Shipper')">
+          <li class="nav-item dropdown me-2">
+            <a class="nav-link dropdown-toggle " style="cursor: pointer" data-bs-toggle="dropdown" data-bs-auto-close="true"
+               th:href="@{/products}" aria-expanded="false">Products</a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a th:href="@{/products/new}"  class="dropdown-item" sec:authorize="hasAnyAuthority('Admin', 'Editor')">Create New</a>
+              <a  th:href="@{/products}" class="dropdown-item">View All</a>
+            </div>
           </li>
         </th:block>
 
@@ -84,7 +108,8 @@
           <span class="fa-solid fa-user fa-2x icon-white"></span>
         </li>
         <li class="nav-item dropdown me-2">
-          <a class="nav-link dropdown-toggle " style="cursor: pointer" data-bs-toggle="dropdown" data-bs-auto-close="true" id="dropdownMenuButton1" aria-expanded="false" sec:authentication="principal.fullName"></a>
+          <a class="nav-link dropdown-toggle " style="cursor: pointer" data-bs-toggle="dropdown" data-bs-auto-close="true"
+             id="dropdownMenuButton1" aria-expanded="false" sec:authentication="principal.fullName"></a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
 
             <li>
