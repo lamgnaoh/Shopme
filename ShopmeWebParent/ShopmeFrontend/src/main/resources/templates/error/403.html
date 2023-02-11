@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:sec = "http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace = "fragments :: page_head('Error - Shopme ')"></head>
+<body class="d-flex flex-column h-100">
+<!-- navigation -->
+
+<div th:replace="navigation :: header_menu"></div>
+<div class="container-fluid">
+
+        <div class="m-3">
+            <h2>Sorry , you dont have permission to access this page </h2>
+        </div>
+
+    </div>
+    <!--        footer-->
+    <div th:replace = "navigation :: footer_menu"></div>
+<!--<script type="text/javascript">-->
+<!--  $(document).ready(function () {-->
+<!--    $("#logoutLink").on("click" , function (e) {-->
+<!--      e.preventDefault();-->
+<!--      document.logoutForm.submit();-->
+<!--    })-->
+<!--  })-->
+<!--</script>-->
+</body>
+</html>
+

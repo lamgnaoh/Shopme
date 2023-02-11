@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<head th:replace = "fragments :: page_head('Error - Shopme Admin')"></head>
+<body class="d-flex flex-column h-100">
+    <div class="container-fluid" >
+      <!-- navigation -->
+
+      <div th:replace="navigation :: header_menu"></div>
+
+        <div class="m-3">
+            <h2>Sorry , an unexpected error has occurred </h2>
+        </div>
+
+
+    </div>
+    <!--        footer-->
+    <div th:replace = "navigation :: footer_menu"></div>
+<!--<script type="text/javascript">-->
+<!--  $(document).ready(function () {-->
+<!--    $("#logoutLink").on("click" , function (e) {-->
+<!--      e.preventDefault();-->
+<!--      document.logoutForm.submit();-->
+<!--    })-->
+<!--  })-->
+<!--</script>-->
+</body>
+</html>
+
