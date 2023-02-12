@@ -14,5 +14,5 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 			+ " ORDER BY p.name ASC")
 	Page<Product> listByCategory(Integer categoryId, String categoryIdMatch, Pageable pageable);
 
-
+	Product findByAlias(String alias);
 }
