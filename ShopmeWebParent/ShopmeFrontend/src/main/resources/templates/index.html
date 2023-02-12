@@ -8,7 +8,7 @@
             <h1>Shopping by categories</h1>
         </div>
         <div class="row">
-            <div class="col" th:each="cat : ${listCategories}">
+            <div class="col-sm-2" th:each="cat : ${listCategories}">
                 <div>
                     <img th:src="@{${cat.imagePath}}" width="80"  alt="Category Image"/>
                 </div>
