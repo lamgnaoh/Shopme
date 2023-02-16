@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head(${pageTitle})" />
-<body>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: page_head(${pageTitle})"></head>
+<body class="d-flex flex-column min-vh-100">
 <div class="container-fluid">
 	<div th:replace="navigation :: header_menu"></div>
 	<div th:replace="navigation :: search_nav"></div>
@@ -21,7 +21,7 @@
 	
 	<div th:replace="fragments :: pagination('/search', 'product')"></div>
 	
-	<div th:replace="navigation :: footer_menu"></div>
-</div>	
+</div>
+<div th:replace="navigation :: footer_menu"></div>
 </body>
 </html>

@@ -15,25 +15,27 @@
 		<label for="dropDownCountries"></label>
 		<select class="form-control m-2" style="height: 300px" size="3" id="dropDownCountries"></select>
 	</div>
-	<div class="row ms-2">
-		<div class="col">
-			<label class=" mt-2" id="labelCountryName" for="fieldCountryName">Country Name:</label>
+	<form id="formCountry">
+		<div class="row ms-2">
+			<div class="col">
+				<label class=" mt-2" id="labelCountryName" for="fieldCountryName">Country Name:</label>
+			</div>
+			<div class="col-md">
+				<input type="text" class="form-control mt-2" id="fieldCountryName" />
+			</div>
+			<div class="col">
+				<label class=" mt-2" for="fieldCountryCode">Code Country:</label>
+			</div>
+			<div class="col-md ">
+				<input type="text" class="form-control mt-2" id="fieldCountryCode" />
+			</div>
+			<div class="col-lg-4 mt-2">
+				<input type="button" id="buttonAddCountry" value="New" class="btn btn-secondary me-2" />
+				<input type="button" id="buttonUpdateCountry" value="Update" class="btn btn-secondary me-2" disabled="disabled" />
+				<input type="button" id="buttonDeleteCountry" value="Delete" class="btn btn-secondary" disabled="disabled" />
+			</div>
 		</div>
-		<div class="col-md">
-			<input type="text" class="form-control mt-2" id="fieldCountryName" />
-		</div>
-		<div class="col">
-			<label class=" mt-2" for="fieldCountryCode">Code Country:</label>
-		</div>
-		<div class="col-md ">
-			<input type="text" class="form-control mt-2" id="fieldCountryCode" />
-		</div>
-		<div class="col-lg-4 mt-2">
-			<input type="button" id="buttonAddCountry" value="New" class="btn btn-secondary me-2" />
-			<input type="button" id="buttonUpdateCountry" value="Update" class="btn btn-secondary me-2" disabled="disabled" />
-			<input type="button" id="buttonDeleteCountry" value="Delete" class="btn btn-secondary" disabled="disabled" />
-		</div>
-	</div>
+	</form>
 </div>
 </body>
 </html>

@@ -7,13 +7,13 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 
-	@Query("SELECT c FROM Customer c WHERE c.email = ?1")
+	@Query("SELECT c FROM Customer c WHERE c.email = :email")
 	 Customer findByEmail(String email);
 	
-	@Query("SELECT c FROM Customer c WHERE c.verificationCode = ?1")
+	@Query("SELECT c FROM Customer c WHERE c.verificationCode = :code")
 	 Customer findByVerificationCode(String code);
 	
-	@Query("UPDATE Customer c SET c.enabled = true WHERE c.id = ?1")
+	@Query("UPDATE Customer c SET c.enabled = true , c.verificationCode = null  WHERE c.id = :id")
 	@Modifying
 	 void enable(Integer id);
 }

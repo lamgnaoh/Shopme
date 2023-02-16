@@ -49,7 +49,7 @@ public class SettingController {
         saveSiteLogo(multipartFile, settingUtils);
         saveCurrencySymbol(request, settingUtils);
 
-        updateSettingValues(request, settingUtils.list());
+        updateSettingValuesFromForm(request, settingUtils.list());
 
         ra.addFlashAttribute("message", "General settings have been saved.");
 
@@ -78,7 +78,27 @@ public class SettingController {
         }
     }
 
-    private void updateSettingValues(HttpServletRequest request, List<Setting> listSettings) {
+    @PostMapping("/settings/save_mail_server")
+    public String saveMailServerSettings(HttpServletRequest request, RedirectAttributes ra) {
+        List<Setting> mailServerSettings = service.getMailServerSettings();
+        updateSettingValuesFromForm(request, mailServerSettings);
+
+        ra.addFlashAttribute("message", "Mail server settings have been saved");
+
+        return "redirect:/settings#mailServer";
+    }
+
+    @PostMapping("/settings/save_mail_templates")
+    public String saveMailTemplateSettings(HttpServletRequest request, RedirectAttributes ra) {
+        List<Setting> mailTemplateSettings = service.getMailTemplateSettings();
+        updateSettingValuesFromForm(request, mailTemplateSettings);
+
+        ra.addFlashAttribute("message", "Mail template settings have been saved");
+
+        return "redirect:/settings#mailTemplates";
+    }
+
+    private void updateSettingValuesFromForm(HttpServletRequest request, List<Setting> listSettings) {
         for (Setting setting : listSettings) {
             String value = request.getParameter(setting.getKey());
             if (value != null) {

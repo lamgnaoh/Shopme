@@ -30,7 +30,7 @@ $(document).ready(function() {
 	});
 		
 	buttonAddState.click(function() {
-		if (buttonAddState.val() == "Add") {
+		if (buttonAddState.val() === "Add") {
 			addState();
 		} else {
 			changeFormStateToNew();
@@ -67,6 +67,7 @@ function deleteState() {
 }
 
 function updateState() {
+	if (!validateFormState()) return;
 	let url = contextPath + "states/save";
 	let stateId = dropDownStates.val();
 	let stateName = fieldStateName.val();
@@ -95,6 +96,7 @@ function updateState() {
 }
 
 function addState() {
+	if (!validateFormState()) return;
 	let url = contextPath + "states/save";
 	let stateName = fieldStateName.val();
 	
@@ -186,4 +188,14 @@ function loadCountries4States() {
 	}).fail(function() {
 		showToastMessage("ERROR: Could not connect to server or server encountered an error");
 	});
+}
+
+function validateFormState() {
+	let formState = document.getElementById("formState");
+	if (!formState.checkValidity()) {
+		formState.reportValidity();
+		return false;
+	}
+
+	return true;
 }
