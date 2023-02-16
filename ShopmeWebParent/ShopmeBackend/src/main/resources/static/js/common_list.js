@@ -9,6 +9,6 @@ function showDeleteConfirmModal(link, entityName) {
 	// set href yes button to delete user url
 	$("#confirmButton").attr("href" , link.attr("href"));
 
-	var modal = new bootstrap.Modal($("#confirmDialog") , {});
+	let modal = new bootstrap.Modal($("#confirmDialog") , {});
 	modal.show();
 }

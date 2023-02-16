@@ -113,11 +113,11 @@
 
 
     function checkEmailUnique(form){
-        url = "[[@{/users/check_email}]]";
-        userEmail = $("#emailInput").val();
+        let url = "[[@{/users/check_email}]]";
+        let userEmail = $("#emailInput").val();
         csrfValue = $("input[name= '_csrf']").val();
-        userId = $("#userId").val();
-        data = {
+        let userId = $("#userId").val();
+        let data = {
             id: userId,
             email: userEmail,
             _csrf : csrfValue

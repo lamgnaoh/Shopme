@@ -26,7 +26,7 @@ function showModalDialog(title , message){
     $("#modalTitle").text(title);
     $("#modalBody").text(message);
     // khoi tao 1 modal dialog
-    var modal = new bootstrap.Modal($("#modalDialog") , {});
+    let modal = new bootstrap.Modal($("#modalDialog") , {});
     modal.show();
 }
 
