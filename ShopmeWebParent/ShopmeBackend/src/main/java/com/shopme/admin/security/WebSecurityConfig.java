@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // setting việc access application se can authentication (login)
         http.authorizeHttpRequests()
-            .antMatchers("/users/**").hasAuthority("Admin")
+            .antMatchers("/users/**","/settings/**", "/countries/**", "/states/**").hasAuthority("Admin")
             .antMatchers("/categories/**","/brands/**").hasAnyAuthority("Admin","Editor")
             .antMatchers("/products/new", "/products/delete/**").hasAnyAuthority("Admin", "Editor")
 
