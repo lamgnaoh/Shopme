@@ -1,6 +1,8 @@
 package com.shopme.admin.brand;
 
 import com.shopme.admin.category.CategoryService;
+import com.shopme.admin.paging.PagingAndSortingHelper;
+import com.shopme.admin.paging.PagingAndSortingParam;
 import com.shopme.admin.utils.FileUploadUtil;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
@@ -22,6 +24,7 @@ import java.util.Objects;
 
 @Controller
 public class BrandController {
+	private String defaultRedirectURL = "redirect:/brands/page/1?sortField=name&sortDir=asc";
 
 	@Autowired
 	private BrandService brandService;
@@ -30,39 +33,16 @@ public class BrandController {
 	private CategoryService categoryService;
 	
 	@GetMapping("/brands")
-	public String listAll(Model model) {
-
-		return listByPage(1,model,"name","asc",null);
+	public String listAll() {
+		return defaultRedirectURL;
 	}
 
 	@GetMapping("/brands/page/{pageNum}")
 	public String listByPage(
-			@PathVariable(name = "pageNum") int pageNum, Model model,
-			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,
-			@RequestParam(value = "keyword", required = false) String keyword
+			@PathVariable(name = "pageNum") int pageNum,
+			@PagingAndSortingParam(listName = "listBrands", moduleURL = "/brands") PagingAndSortingHelper helper
 	) {
-		Page<Brand> page = brandService.listByPage(pageNum, sortField, sortDir, keyword);
-		List<Brand> listBrands = page.getContent();
-
-		long startCount = (long) (pageNum - 1) * BrandService.BRANDS_PER_PAGE + 1;
-		long endCount = startCount + BrandService.BRANDS_PER_PAGE - 1;
-		if (endCount > page.getTotalElements()) {
-			endCount = page.getTotalElements();
-		}
-
-		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-
-		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("startCount", startCount);
-		model.addAttribute("endCount", endCount);
-		model.addAttribute("totalItems", page.getTotalElements());
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("reverseSortDir", reverseSortDir);
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("listBrands", listBrands);
-
+		brandService.listByPage(pageNum, helper);
 		return "brands/brands";
 	}
 

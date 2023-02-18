@@ -11,7 +11,7 @@
             <a class="fas fa-folder-plus btn btn-primary p-2 my-2" th:href="@{/categories/new}"></a>
         </div>
 
-        <div th:replace="fragments :: search_form_and_message('/categories/page/1')"></div>
+        <div th:replace="fragments :: search_form_and_message"></div>
 
 
         <div class="full-details">
@@ -20,7 +20,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Category Image</th>
-                        <th th:replace="fragments::column_link('/categories','name' , 'Category Name')"></th>
+                        <th th:replace="fragments::column_link('name' , 'Category Name')"></th>
                         <th>Parent Category Name</th>
                         <th>Alias</th>
                         <th>Enabled</th>
@@ -31,25 +31,25 @@
                     <tr th:each="cat : ${listCategories}">
                         <td>[[${cat.id}]]</td>
                         <td>
-                            <img th:src="@{${cat.imagePath}}" style="width: 100px" class="img-fluid">
+                            <img th:src="@{${cat.imagePath}}" style="width: 100px" class="img-fluid" alt="Category Image">
                         </td>
                         <td>[[${cat.name}]]</td>
                         <td>[[${cat.parentName}]]</td>
                         <td>[[${cat.alias}]]</td>
                         <td>
-                            <div th:replace="fragments :: status(${cat.enabled}, 'category', '/categories/' + ${cat.id})" />
+                            <div th:replace="fragments :: status(${cat.enabled}, 'category', '/categories/' + ${cat.id})"></div>
                         </td>
                         <td>
-                            <div th:replace="fragments :: edit('category', '/categories/edit/' + ${cat.id})" />
+                            <div th:replace="fragments :: edit('category', '/categories/edit/' + ${cat.id})"></div>
 
-                            <div th:replace="fragments :: delete('category', ${cat.id}, '/categories/delete/' + ${cat.id}, ${!cat.hasChildren})" />
+                            <div th:replace="fragments :: delete('category', ${cat.id}, '/categories/delete/' + ${cat.id}, ${!cat.hasChildren})"></div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <!--        pagination-->
-        <div th:replace="fragments :: pagination('/categories', 'Top-level categories')"></div>
+        <div th:replace="fragments :: pagination( 'Top-level categories')"></div>
 
         <div th:replace="modal_fragments :: confirm_modal"></div>
 

@@ -1,5 +1,6 @@
 package com.shopme.admin.user;
 
+import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -32,17 +34,8 @@ public class UserService {
         return (List<User>) userRepository.findAll();
     }
 
-    public Page<User> listUsersByPage(int pageNum , String sortField , String sortDir , String keyword){
-        // sorting theo truong field va theo asc hoac desc
-        Sort sort = Sort.by(sortField);
-        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-
-        // pagination
-        Pageable pageable = PageRequest.of(pageNum - 1 , USERS_PER_PAGE , sort);
-        if(keyword != null){
-            return userRepository.findAll(keyword,pageable);
-        }
-        return userRepository.findAll(pageable);
+    public void listByPage(int pageNum , PagingAndSortingHelper helper){
+        helper.listEntities(pageNum, USERS_PER_PAGE, userRepository);
     }
 
     public List<Role> listAllRoles(){
@@ -95,7 +88,7 @@ public class UserService {
         if(isCreatingNew) {
             if(userByEmail != null) return false;
         }else {
-            if(userByEmail.getId() != id) return false;
+            if(!Objects.equals(userByEmail.getId(), id)) return false;
         }
         return true;
     }

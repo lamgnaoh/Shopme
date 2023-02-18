@@ -8,7 +8,7 @@
 	<div>
 		<h2>Manage Products</h2>
 		<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-		<a th:href="@{/products/new}" class="fas fa-folder-plus btn btn-primary p-2 my-2"></a>
+			<a th:href="@{/products/new}" class="fas fa-folder-plus btn btn-primary p-2 my-2"></a>
 		</th:block>
 	</div>
 
@@ -47,11 +47,11 @@
 		<table class="table table-bordered table-striped table-hover table-responsive-xl">
 			<thead class="table-dark">
 				<tr>
-					<th th:replace="fragments::column_link('/products','id' , 'ID')"></th>
+					<th th:replace="fragments::column_link('id' , 'ID')"></th>
 					<th>Main Image</th>
-					<th th:replace="fragments::column_link('/products','name' , 'Product Name')"></th>
-					<th th:replace="fragments::column_link('/products','brand' , 'Brand')"></th>
-					<th th:replace="fragments::column_link('/products','category' , 'Category')"></th>
+					<th th:replace="fragments::column_link('name' , 'Product Name')"></th>
+					<th th:replace="fragments::column_link('brand' , 'Brand')"></th>
+					<th th:replace="fragments::column_link('category' , 'Category')"></th>
 					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 						<th>Enabled</th>
 					</th:block>
@@ -110,7 +110,7 @@
 	</div>
 </div>
 
-<div th:replace="fragments :: pagination('/products', 'products')"></div>
+<div th:replace="fragments :: pagination('products')"></div>
 
 <div th:replace="fragments :: footer"></div>
 

@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class ProductSaveHelper {
@@ -79,7 +80,7 @@ public class ProductSaveHelper {
 	static void saveUploadedImages(MultipartFile mainImageMultipart, 
 			MultipartFile[] extraImageMultiparts, Product savedProduct) throws IOException {
 		if (!mainImageMultipart.isEmpty()) {
-			String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
+			String fileName = StringUtils.cleanPath(Objects.requireNonNull(mainImageMultipart.getOriginalFilename()));
 			String uploadDir = "../product-images/" + savedProduct.getId();
 			
 			FileUploadUtil.cleanDir(uploadDir);
@@ -92,7 +93,7 @@ public class ProductSaveHelper {
 			for (MultipartFile multipartFile : extraImageMultiparts) {
 				if (multipartFile.isEmpty()) continue;
 				
-				String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+				String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 			}
 		}
@@ -103,7 +104,7 @@ public class ProductSaveHelper {
 		if (extraImageMultiparts.length > 0) {
 			for (MultipartFile multipartFile : extraImageMultiparts) {
 				if (!multipartFile.isEmpty()) {
-					String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+					String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 					
 					if (!product.containsImageName(fileName)) {
 						product.addExtraImage(fileName);
@@ -115,7 +116,7 @@ public class ProductSaveHelper {
 
 	static void setMainImageName(MultipartFile mainImageMultipart, Product product) {
 		if (!mainImageMultipart.isEmpty()) {
-			String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
+			String fileName = StringUtils.cleanPath(Objects.requireNonNull(mainImageMultipart.getOriginalFilename()));
 			product.setMainImage(fileName);
 		}
 	}

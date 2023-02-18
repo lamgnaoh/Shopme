@@ -10,22 +10,22 @@
             <h2>Manage Users</h2>
             <a class="fas fa-folder-plus btn btn-primary p-2 my-2" th:href="@{/users/new}"></a>
 
-            <div th:replace="fragments :: search_form_and_message('/users/page/1')"></div>
+            <div th:replace="fragments :: search_form_and_message"></div>
 
 
             <div class="full-details">
                 <table class="table table-responsive-xl table-bordered table-striped table-hover">
                     <thead class="table-dark">
                     <tr>
-                        <th  th:replace="fragments::column_link('/users','id' , 'User ID')"></th>
+                        <th  th:replace="fragments::column_link('id' , 'User ID')"></th>
                         <th class="text-center">
                             Photos
                         </th>
-                        <th th:replace="fragments::column_link('/users','email' , 'Email')"></th>
-                        <th th:replace="fragments::column_link('/users','firstName' , 'First Name')"></th>
-                        <th th:replace="fragments::column_link('/users','lastName' , 'Last Name')"></th>
+                        <th th:replace="fragments::column_link('email' , 'Email')"></th>
+                        <th th:replace="fragments::column_link('firstName' , 'First Name')"></th>
+                        <th th:replace="fragments::column_link('lastName' , 'Last Name')"></th>
                         <th class="text-center">Roles</th>
-                        <th th:replace="fragments::column_link('/users','enabled' , 'Enabled')"></th>
+                        <th th:replace="fragments::column_link('enabled' , 'Enabled')"></th>
                         <th class="text-center"></th>
                     </tr>
                     </thead>
@@ -41,11 +41,11 @@
                         <td>[[${user.lastName}]]</td>
                         <td>[[${user.roles}]]</td>
                         <td class="text-center">
-                            <div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})" />
+                            <div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})"></div>
                         </td>
                         <td class="text-center">
-                            <div th:replace="fragments :: edit('user', '/users/edit/' + ${user.id})" />
-                            <div th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)" />
+                            <div th:replace="fragments :: edit('user', '/users/edit/' + ${user.id})"></div>
+                            <div th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)"></div>
                         </td>
                     </tr>
                     </tbody>
@@ -55,8 +55,8 @@
             <div class="less-details">
                 <div th:each="user : ${listUsers}" class="row m-1">
                     <div class="col-4">
-                        <img th:if = "${user.photos == null}" th:src = "@{/images/default-user.png}" style="width: 100px"/>
-                        <img th:if="${user.photos != null}" th:src="@{${user.getPhotosImagePath()}}" style="width: 100px"/>
+                        <img th:if = "${user.photos == null}" th:src = "@{/images/default-user.png}" style="width: 100px" alt="User photos"/>
+                        <img alt="User photos"  th:if="${user.photos != null}" th:src="@{${user.getPhotosImagePath()}}" style="width: 100px"/>
                     </div>
 
                     <div class="col-8">
@@ -80,7 +80,7 @@
             </div>
 
             <!--        pagination-->
-            <div th:replace="fragments :: pagination('/users', 'users')"></div>
+            <div th:replace="fragments :: pagination('users')"></div>
 
             <!--        modal confirm delete -->
             <div th:replace="modal_fragments :: confirm_modal"></div>

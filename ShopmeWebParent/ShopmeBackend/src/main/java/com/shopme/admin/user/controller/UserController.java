@@ -1,5 +1,7 @@
 package com.shopme.admin.user.controller;
 
+import com.shopme.admin.paging.PagingAndSortingHelper;
+import com.shopme.admin.paging.PagingAndSortingParam;
 import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.admin.user.UserService;
 import com.shopme.admin.utils.FileUploadUtil;
@@ -20,45 +22,20 @@ import java.util.Objects;
 
 @Controller
 public class UserController {
+
+    private String defaultRedirectURL = "redirect:/users/page/1?sortField=firstName&sortDir=asc";
     @Autowired
     private UserService userService;
 
     @GetMapping("/users")
     public String listFirstPage(Model model){
-        return listByPage(1,model , "id" , "asc" , null);
+        return defaultRedirectURL;
     }
 
     @GetMapping("/users/page/{pageNum}")
-    public String listByPage(@PathVariable(name = "pageNum") int pageNum , Model model ,
-                             @RequestParam("sortField") String sortField , @RequestParam("sortDir") String sortDir ,
-                             @RequestParam(value = "keyword" , required = false) String keyword){
-        Page<User> page = userService.listUsersByPage(pageNum,sortField,sortDir,keyword);
-        List<User> listUsers = page.getContent();
-        long startCount = (long) (pageNum - 1) * UserService.USERS_PER_PAGE +1;
-        long endCount =   startCount + UserService.USERS_PER_PAGE -1 ;
-        if(endCount > page.getTotalElements()){
-            endCount = page.getTotalElements();
-        }
-
-//        System.out.println(startCount);
-//        System.out.println(endCount);
-//        System.out.println(page.getTotalElements());
-//        System.out.println(page.getTotalPages());
-//        System.out.println(pageNum);
-
-        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-
-        model.addAttribute("startCount" , startCount);
-        model.addAttribute("endCount" , endCount);
-        model.addAttribute("totalItems" , page.getTotalElements());
-        model.addAttribute("totalPages" , page.getTotalPages());
-        model.addAttribute("currentPage" , pageNum);
-        model.addAttribute("listUsers" ,listUsers);
-        model.addAttribute("sortField" ,sortField);
-        model.addAttribute("sortDir" ,sortDir);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("reverseSortDir" ,reverseSortDir);
-
+    public String listByPage(@PathVariable(name = "pageNum") int pageNum ,
+                             @PagingAndSortingParam(listName = "listUsers", moduleURL = "/users") PagingAndSortingHelper helper){
+        userService.listByPage(pageNum, helper);
         return "users/users";
     }
 
