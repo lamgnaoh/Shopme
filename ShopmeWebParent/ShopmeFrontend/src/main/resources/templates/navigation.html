@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th = "http://www.thymeleaf.org">
+<html lang="en"  xmlns:th = "http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <body>
 <div th:fragment="header_menu">
   <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -21,14 +21,62 @@
           <a class="nav-link" href="">Shipping &amp; Delivery</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/register}">Register</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="">Contact</a>
         </li>
+
+
+<!--        <li class="nav-item ms-xl-auto">-->
+<!--          <a class="nav-link" th:href="@{/login}">Login</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item me-3">-->
+<!--          <a class="nav-link" th:href="@{/register}">Register</a>-->
+<!--        </li>-->
+        <th:block sec:authorize="!isAuthenticated()">
+        <li class="nav-item ms-xl-auto">
+          <a class="nav-link" th:href="@{/login}">Login</a>
+        </li>
+        <li class="nav-item me-3">
+          <a class="nav-link" th:href="@{/register}">Register</a>
+        </li>
+        </th:block>
+
+        <th:block sec:authorize="isAuthenticated()">
+        <li class="nav-item dropdown me-2 ms-xl-auto">
+          <th:block sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+              <input type="submit" value="Logout" />
+            </form>
+          </th:block>
+          <a class="nav-link dropdown-toggle " style="cursor: pointer" data-bs-toggle="dropdown" data-bs-auto-close="true"
+             id="dropdownMenuButton1" aria-expanded="false" sec:authentication="principal.fullName" th:href="@{/customer}" ></a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <a class="dropdown-item" href="">Addresses</a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="">Questions</a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="">Reviews</a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="">Orders</a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="">Cart</a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="javascript: document.logoutForm.submit()">Logout</a>
+            </li>
+
+          </ul>
+        </li>
+        </th:block>
       </ul>
 <!--      <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">-->
 <!--        <input type="submit">-->

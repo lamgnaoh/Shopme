@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // setting việc access application se can authentication (login)
+        // setting các filter trong spring security sử dụng trong hệ thống
         http.authorizeHttpRequests()
             .antMatchers("/users/**","/settings/**", "/countries/**", "/states/**").hasAuthority("Admin")
             .antMatchers("/categories/**","/brands/**").hasAnyAuthority("Admin","Editor")
