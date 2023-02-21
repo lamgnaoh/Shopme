@@ -48,8 +48,13 @@
             </form>
           </th:block>
           <a class="nav-link dropdown-toggle " style="cursor: pointer" data-bs-toggle="dropdown" data-bs-auto-close="true"
-             id="dropdownMenuButton1" aria-expanded="false" sec:authentication="principal.fullName" th:href="@{/customer}" ></a>
+             id="dropdownMenuButton1" aria-expanded="false" sec:authentication="principal.fullName"  ></a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+
+            <li>
+              <a class="dropdown-item" th:href="@{/account_details}">Account details</a>
+            </li>
+
             <li>
               <a class="dropdown-item" href="">Addresses</a>
             </li>

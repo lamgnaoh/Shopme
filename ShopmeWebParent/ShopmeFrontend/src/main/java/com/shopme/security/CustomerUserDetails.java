@@ -7,6 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class CustomerUserDetails implements UserDetails {
+
+	//UserDetails đại diện cho một principal nhưng theo một cách mở rộng và cụ thể hơn, cung cap cac phuong thuc nhu
+	// trả về danh sách các quyền của người dùng , trả về password đã dùng trong qúa trình xác thực, trả về username đã dùng trong qúa trình xác thực
+
 	private final Customer customer;
 	
 	public CustomerUserDetails(Customer customer) {

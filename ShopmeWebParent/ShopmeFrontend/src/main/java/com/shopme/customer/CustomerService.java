@@ -3,6 +3,7 @@ package com.shopme.customer;
 import com.shopme.common.entity.AuthenticationType;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.Customer;
+import com.shopme.common.exception.CustomerNotFoundException;
 import com.shopme.setting.CountryRepository;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,14 +74,14 @@ public class CustomerService {
 		return customerRepo.findByEmail(email);
 	}
 
-	public void addNewCustomerUponOAuthLogin(String name, String email, String countryCode) {
+	public void addNewCustomerUponOAuthLogin(String name, String email, String countryCode,AuthenticationType authenticationType) {
 		Customer customer = new Customer();
 		customer.setEmail(email);
 		setName(name, customer);
 
 		customer.setEnabled(true);
 		customer.setCreatedTime(new Date());
-		customer.setAuthenticationType(AuthenticationType.GOOGLE);
+		customer.setAuthenticationType(authenticationType);
 		customer.setPassword("");
 		customer.setAddressLine1("");
 		customer.setCity("");
@@ -104,6 +105,28 @@ public class CustomerService {
 			String lastName = name.replaceFirst(firstName, "");
 			customer.setLastName(lastName);
 		}
+	}
+
+	public void update(Customer customerInForm) {
+		Customer customerInDB = customerRepo.findById(customerInForm.getId()).get();
+
+		if (customerInDB.getAuthenticationType().equals(AuthenticationType.DATABASE)) {
+			if (!customerInForm.getPassword().isEmpty()) {
+				String encodedPassword = passwordEncoder.encode(customerInForm.getPassword());
+				customerInForm.setPassword(encodedPassword);
+			} else {
+				customerInForm.setPassword(customerInDB.getPassword());
+			}
+		} else {
+			// account register by google account -> no password value in db -> set password equal to password in db
+			customerInForm.setPassword(customerInDB.getPassword());
+		}
+
+		customerInForm.setEnabled(customerInDB.isEnabled());
+		customerInForm.setCreatedTime(customerInDB.getCreatedTime());
+		customerInForm.setVerificationCode(customerInDB.getVerificationCode());
+		customerInForm.setAuthenticationType(customerInDB.getAuthenticationType());
+		customerRepo.save(customerInForm);
 	}
 
 
