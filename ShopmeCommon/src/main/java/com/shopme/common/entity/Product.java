@@ -64,6 +64,14 @@ public class Product {
 	@OneToMany(mappedBy = "product" , cascade = CascadeType.ALL,orphanRemoval = true)
 	private Set<ProductDetail> details = new HashSet<>();
 
+	public Product(Integer id) {
+		this.id = id;
+	}
+
+	public Product() {
+	}
+
+
 	public Integer getId() {
 		return id;
 	}

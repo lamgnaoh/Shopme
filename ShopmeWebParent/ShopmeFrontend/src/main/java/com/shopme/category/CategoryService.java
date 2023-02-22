@@ -31,7 +31,7 @@ public class CategoryService {
 	}
 
 	public Category getCategory(String alias) throws CategoryNotFoundException {
-		Category category = repo.findByAliasEnabled(alias);
+		Category category = repo.findByAliasEnabled(alias); // get all categories with alias and enable
 		if (category == null) {
 			throw new CategoryNotFoundException("Could not find any categories with alias " + alias);
 		}

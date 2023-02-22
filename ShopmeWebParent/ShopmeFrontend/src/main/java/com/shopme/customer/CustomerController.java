@@ -3,7 +3,6 @@ package com.shopme.customer;
 import com.shopme.Utility;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.Customer;
-import com.shopme.common.exception.CustomerNotFoundException;
 import com.shopme.security.CustomerUserDetails;
 import com.shopme.security.oauth.CustomerOAuth2User;
 import com.shopme.setting.EmailSettingUtils;
@@ -13,7 +12,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,7 +96,7 @@ public class CustomerController {
 
 	@GetMapping("/account_details")
 	public String viewAccountDetails(Model model, HttpServletRequest request) {
-		String email = getEmailOfAuthenticatedCustomer(request);
+		String email = Utility.getEmailOfAuthenticatedCustomer(request);
 		Customer customer = customerService.getCustomerByEmail(email);
 		List<Country> listCountries = customerService.listAllCountries();
 
@@ -108,22 +106,6 @@ public class CustomerController {
 		return "customer/account_form";
 	}
 
-	private String getEmailOfAuthenticatedCustomer(HttpServletRequest request) {
-		Object principal = request.getUserPrincipal(); // get the principal object , can be UsernamePasswordAuthenticationToken
-// when login with email and password or Oauth2AuthenticationToken when login with google account
-
-		String customerEmail = null;
-
-		if (principal instanceof UsernamePasswordAuthenticationToken
-				|| principal instanceof RememberMeAuthenticationToken) {
-			customerEmail = request.getUserPrincipal().getName();
-		} else if (principal instanceof OAuth2AuthenticationToken oauth2Token) {
-			CustomerOAuth2User oauth2User = (CustomerOAuth2User) oauth2Token.getPrincipal();
-			customerEmail = oauth2User.getEmail();
-		}
-
-		return customerEmail;
-	}
 
 	@PostMapping("/update_account_details")
 	public String updateAccountDetails(Model model, Customer customer, RedirectAttributes ra,
