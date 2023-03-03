@@ -41,7 +41,13 @@
         </th:block>
 
         <th:block sec:authorize="isAuthenticated()">
-        <li class="nav-item dropdown me-2 ms-xl-auto">
+          <li class="nav-item ms-xl-auto ">
+            <a  th:href="@{/cart}" class="nav-link">
+              <i class="fa-solid fa-cart-shopping"></i>
+              Cart
+            </a>
+          </li>
+        <li class="nav-item dropdown me-3">
           <th:block sec:authorize="isAuthenticated()">
             <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
               <input type="submit" value="Logout" />
@@ -71,9 +77,6 @@
               <a class="dropdown-item" href="">Orders</a>
             </li>
 
-            <li>
-              <a class="dropdown-item" href="">Cart</a>
-            </li>
 
             <li>
               <a class="dropdown-item" href="javascript: document.logoutForm.submit()">Logout</a>

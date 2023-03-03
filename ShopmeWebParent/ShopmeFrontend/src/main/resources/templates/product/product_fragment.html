@@ -9,13 +9,18 @@
 			<b>[[${product.shortName}]]</b>
 		</a>
 	</div>
-	<div th:if="${product.discountPercent <= 0}">
+	<div th:replace="product/product_fragment :: product_price"></div>
+</div>
+<div th:fragment="product_price" th:remove="tag">
+	<th:block th:if="${product.discountPercent <= 0}">
 		<span>[[${CURRENCY_SYMBOL}]] [[${product.price}]]</span>
-	</div>
-	<div th:if="${product.discountPercent > 0}">
+	</th:block>
+	<th:block th:if="${product.discountPercent > 0}">
 		<span style="font-size: larger; color: darkred">[[${CURRENCY_SYMBOL}]] [[${product.discountPrice}]]</span>
-		<del><span>[[${CURRENCY_SYMBOL}]] [[${product.price}]]</span></del>
-	</div>				
+		<del>
+			<span>[[${CURRENCY_SYMBOL}]] [[${product.price}]]</span>
+		</del>
+	</th:block>
 </div>
 </body>
 </html>

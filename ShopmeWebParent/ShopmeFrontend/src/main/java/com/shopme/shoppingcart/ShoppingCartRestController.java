@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class ShoppingCartRestController {
-	@Autowired private ShoppingCartService cartService;
-	@Autowired private CustomerService customerService;
+	@Autowired
+	private ShoppingCartService cartService;
+	@Autowired
+	private CustomerService customerService;
 	
 	@PostMapping("/cart/add/{productId}/{quantity}")
 	public String addProductToCart(@PathVariable("productId") Integer productId,
@@ -40,5 +42,18 @@ public class ShoppingCartRestController {
 		}
 				
 		return customerService.getCustomerByEmail(email);
+	}
+
+	@PostMapping("/cart/update/{productId}/{quantity}")
+	public String updateQuantity(@PathVariable("productId") Integer productId,
+								 @PathVariable("quantity") Integer quantity, HttpServletRequest request) {
+		try {
+			Customer customer = getAuthenticatedCustomer(request);
+			float subtotal = cartService.updateQuantity(productId, quantity, customer);
+
+			return String.valueOf(subtotal);
+		} catch (CustomerNotFoundException ex) {
+			return "You must login to change quantity of product.";
+		}
 	}
 }
