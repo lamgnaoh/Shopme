@@ -17,7 +17,7 @@
 		<input type="hidden" th:field="*{defaultForShipping}" />	
 	<div class="border border-secondary rounded p-3">			
 		<div class="input-group row p-2">
-			<label class="col-sm-4 col-form-label">First Name:</label>
+			<label class="col-sm-4">First Name:</label>
 			<div class="col-sm-8">
 				<input type="text" th:field="*{firstName}" class="form-control"
 					required="required" maxlength="45" minlength="2" />
@@ -25,7 +25,7 @@
 		</div>
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-4 col-form-label">Last Name:</label>
+			<label class="col-sm-4">Last Name:</label>
 			<div class="col-sm-8">
 				<input type="text" th:field="*{lastName}" class="form-control"
 					required="required" maxlength="45" minlength="2" />
@@ -33,7 +33,7 @@
 		</div>				
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-4 col-form-label">Phone Number:</label>
+			<label class="col-sm-4">Phone Number:</label>
 			<div class="col-sm-8">
 				<input type="text" th:field="*{phoneNumber}" class="form-control"
 					required="required" maxlength="15" minlength="8" />
@@ -41,7 +41,7 @@
 		</div>
 
 		<div class="input-group row p-2">
-			<label class="col-sm-4 col-form-label">Address Line 1:</label>
+			<label class="col-sm-4">Address Line 1:</label>
 			<div class="col-sm-8">
 				<input type="text" th:field="*{addressLine1}" class="form-control"
 					required="required" maxlength="64" minlength="3" />
@@ -49,7 +49,7 @@
 		</div>
 
 		<div class="input-group row p-2">
-			<label class="col-sm-4 col-form-label">Address Line 2:</label>
+			<label class="col-sm-4">Address Line 2:</label>
 			<div class="col-sm-8">
 				<input type="text" th:field="*{addressLine2}" class="form-control"
 					maxlength="64" />
@@ -57,7 +57,7 @@
 		</div>
 
 		<div class="input-group row p-2">
-			<label class="col-sm-4 col-form-label">City:</label>
+			<label class="col-sm-4">City:</label>
 			<div class="col-sm-8">
 				<input type="text" th:field="*{city}" class="form-control"
 					required maxlength="45" minlength="2" />
@@ -65,7 +65,7 @@
 		</div>
 
 		<div class="input-group row p-2">
-			<label class="col-sm-4 col-form-label">Country:</label>
+			<label class="col-sm-4">Country:</label>
 			<div class="col-sm-8">
 				<select class="form-control" th:field="*{country}">
 					<th:block th:each="country : ${listCountries}">
@@ -76,7 +76,7 @@
 		</div>
 				
 		<div class="input-group row p-2">
-			<label class="col-sm-4 col-form-label">State/Province:</label>
+			<label class="col-sm-4">State/Province:</label>
 			<div class="col-sm-8">
 				<input type="text" th:field="*{state}" class="form-control"
 					maxlength="45" minlength="3" list="listStates" />
@@ -85,7 +85,7 @@
 		</div>
 								
 		<div class="input-group row p-2">
-			<label class="col-sm-4 col-form-label">Postal Code:</label>
+			<label class="col-sm-4">Postal Code:</label>
 			<div class="col-sm-8">
 				<input type="text" th:field="*{postalCode}" class="form-control"
 					required maxlength="10" minlength="2" />

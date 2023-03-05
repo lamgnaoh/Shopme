@@ -1,7 +1,7 @@
 package com.shopme.setting;
 
-import com.shopme.common.entity.Setting;
-import com.shopme.common.entity.SettingUtils;
+import com.shopme.common.entity.setting.Setting;
+import com.shopme.common.entity.setting.SettingUtils;
 
 import java.util.List;
 

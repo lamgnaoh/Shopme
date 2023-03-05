@@ -1,5 +1,6 @@
 package com.shopme.common.entity;
 
+import com.shopme.common.entity.product.Product;
 import javax.persistence.*;
 
 @Entity

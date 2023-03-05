@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <body>
 <div th:fragment="content" th:remove="tag">
 	<form th:action="@{/settings/save_general}" method="post" enctype="multipart/form-data">
 	<div class="input-group row p-2">
-		<label class="col-sm-4 col-form-label">Site Name:</label>
+		<label class="col-sm-4">Site Name:</label>
 		<div class="col-sm-8">
 			<input type="text" class="form-control" name="SITE_NAME" 
 				th:value="${SITE_NAME}" required  />
@@ -12,7 +12,7 @@
 	</div>	
 	
 	<div class="input-group row p-2">
-		<label class="col-sm-4 col-form-label">Copyright:</label>
+		<label class="col-sm-4">Copyright:</label>
 		<div class="col-sm-8">
 			<input type="text" class="form-control" name="COPYRIGHT" 
 				th:value="${COPYRIGHT}" required  />
@@ -20,7 +20,7 @@
 	</div>
 	
 	<div class="input-group row p-2">
-		<label class="col-sm-4 col-form-label">Site Logo:</label>
+		<label class="col-sm-4">Site Logo:</label>
 		<div class="col-sm-8">
 			<img id="thumbnail" alt="Site Logo thumbnail" th:src="@{${SITE_LOGO}}"
 				width="150" height="70"/>
@@ -30,7 +30,7 @@
 	</div>	
 
 	<div class="input-group row p-2">
-		<label class="col-sm-4 col-form-label">Currency Type:</label>
+		<label class="col-sm-4">Currency Type:</label>
 		<div class="col-sm-8">
 			<select name="CURRENCY_ID" class="form-control">
 			<th:block th:each="currency : ${listCurrencies}">

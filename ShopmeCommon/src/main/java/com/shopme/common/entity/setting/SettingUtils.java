@@ -1,6 +1,4 @@
-package com.shopme.common.entity;
-
-import com.shopme.common.entity.Setting;
+package com.shopme.common.entity.setting;
 
 import java.util.List;
 

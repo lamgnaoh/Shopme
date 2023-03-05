@@ -3,7 +3,7 @@
 <body>
 <div th:fragment="content" th:remove="tag">
 	<div class="input-group row p-2">
-		<label class="col-sm-2 col-form-label">Product Name:</label>
+		<label class="col-sm-2">Product Name:</label>
 		<div class="col-sm-10">
 			<th:block th:if="${!#authorization.expression('hasAuthority(''Admin'')') && !#authorization.expression('hasAuthority(''Editor'')')}">
 				<th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
@@ -20,7 +20,7 @@
 	</div>
 	
 	<div class="input-group row p-2">
-		<label class="col-sm-2 col-form-label">Alias:</label>
+		<label class="col-sm-2">Alias:</label>
 		<div class="col-sm-10">
 			<th:block th:if="${!#authorization.expression('hasAuthority(''Admin'')') && !#authorization.expression('hasAuthority(''Editor'')')}">
 				<th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
@@ -39,7 +39,7 @@
 	</div>
 	
 	<div class="input-group row p-2">
-		<label class="col-sm-2 col-form-label">Brand:</label>
+		<label class="col-sm-2">Brand:</label>
 		<div class="col-sm-10">
 			<th:block th:if="${#authorization.expression('hasAuthority(''Admin'')') || #authorization.expression('hasAuthority(''Editor'')')}">
 				<select th:field="*{brand}" class="form-control" required>
@@ -58,7 +58,7 @@
 	</div>
 	
 	<div class="input-group row p-2">
-		<label class="col-sm-2 col-form-label">Category:</label>
+		<label class="col-sm-2">Category:</label>
 		<div class="col-sm-10">
 			<th:block th:if="${#authorization.expression('hasAuthority(''Admin'')') || #authorization.expression('hasAuthority(''Editor'')')}">
 				<th:block th:if="${product.category != null}">
@@ -85,7 +85,7 @@
 	</div>
 	
 	<div class="input-group row p-2">
-		<label class="col-sm-2 col-form-label">Enabled:</label>
+		<label class="col-sm-2">Enabled:</label>
 		<div class="col-sm-10">
 			<th:block th:if="${!#authorization.expression('hasAuthority(''Admin'')') && !#authorization.expression('hasAuthority(''Editor'')')}">
 				<th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
@@ -101,7 +101,7 @@
 		</div>
 	</div>
 	<div class="input-group row p-2">
-		<label class="col-sm-2 col-form-label">In-Stock:</label>
+		<label class="col-sm-2">In-Stock:</label>
 		<div class="col-sm-10">
 			<th:block th:if="${!#authorization.expression('hasAuthority(''Admin'')') && !#authorization.expression('hasAuthority(''Editor'')')}">
 				<th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
@@ -116,21 +116,21 @@
 	</div>
 	
 	<div class="input-group row p-2">
-		<label class="col-sm-2 col-form-label">Cost:</label>
+		<label class="col-sm-2">Cost:</label>
 		<div class="col-sm-10">
 			<input type="number" step="0.01" class="form-control" th:field="*{cost}"/>
 		</div>
 	</div>
 	
 	<div class="input-group row p-2">
-		<label class="col-sm-2 col-form-label">Price:</label>
+		<label class="col-sm-2">Price:</label>
 		<div class="col-sm-10">
 			<input type="number" step="0.01" class="form-control" th:field="*{price}"/>
 		</div>
 	</div>
 	
 	<div class="input-group row p-2">
-		<label class="col-sm-2 col-form-label">Discount:</label>
+		<label class="col-sm-2">Discount:</label>
 		<div class="col-sm-10">
 			<input type="number" class="form-control" th:field="*{discountPercent}"/>
 		</div>

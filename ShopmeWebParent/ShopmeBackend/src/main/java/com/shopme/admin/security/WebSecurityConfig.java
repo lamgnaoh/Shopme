@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -57,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .hasAnyAuthority("Admin", "Editor", "Salesperson", "Shipper")
 
             .antMatchers("/products/**").hasAnyAuthority("Admin", "Editor")
+            .antMatchers("/customers/**", "/orders/**").hasAnyAuthority("Admin", "Salesperson")
             .anyRequest().authenticated() // tất cả các request đến đều cần authenticated - cần login
             .and()
                 .formLogin()

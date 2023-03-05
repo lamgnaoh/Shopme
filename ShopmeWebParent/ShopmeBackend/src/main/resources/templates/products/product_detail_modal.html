@@ -25,69 +25,69 @@
 	<div class="tab-content">
 	  <div class="tab-pane active p-3" id="overview" role="tabpanel">
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Product Name:</label>
+			<label class="col-sm-2">Product Name:</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.name}" readonly />
 			</div>
 		</div>
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Alias:</label>
+			<label class="col-sm-2">Alias:</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.alias}" readonly />
 			</div>
 		</div>
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Brand:</label>
+			<label class="col-sm-2">Brand:</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.brand.name}" readonly />
 			</div>
 		</div>
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Category:</label>
+			<label class="col-sm-2">Category:</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.category.name}" readonly />
 			</div>
 		</div>
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Enabled:</label>
+			<label class="col-sm-2">Enabled:</label>
 			<div class="col-sm-10">
 				<input type="checkbox" th:checked="${product.enabled}" onclick="return false;" />
 			</div>
 		</div>
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">In-Stock:</label>
+			<label class="col-sm-2">In-Stock:</label>
 			<div class="col-sm-10">
 				<input type="checkbox" th:checked="${product.inStock}" onclick="return false;" />
 			</div>
 		</div>
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Cost:</label>
+			<label class="col-sm-2">Cost:</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.cost}" readonly />
 			</div>
 		</div>
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Price:</label>
+			<label class="col-sm-2">Price:</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.price}" readonly />
 			</div>
 		</div>
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Discount:</label>
+			<label class="col-sm-2">Discount:</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.discountPercent}" readonly />
 			</div>
 		</div>
 		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Updated Time:</label>
+			<label class="col-sm-2">Updated Time:</label>
 			<div class="col-sm-10">
 				<span th:text="${#dates.format(product.updatedTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
 			</div>
@@ -147,25 +147,25 @@
 	  </div>
 	  <div class="tab-pane p-3" id="shipping" role="tabpanel">
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Length (inch):</label>
+			<label class="col-sm-2">Length (inch):</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.length}" readonly/>
 			</div>
 		</div>
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Width (inch):</label>
+			<label class="col-sm-2">Width (inch):</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.width}" readonly/>
 			</div>
 		</div>		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Height (inch):</label>
+			<label class="col-sm-2">Height (inch):</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.height}" readonly/>
 			</div>
 		</div>		
 		<div class="input-group row p-2">
-			<label class="col-sm-2 col-form-label">Weight (pounds):</label>
+			<label class="col-sm-2">Weight (pounds):</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:value="${product.weight}" readonly/>
 			</div>
