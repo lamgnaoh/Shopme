@@ -45,7 +45,7 @@ public class OrderRepositoryTests {
 		mainOrder.setSubtotal(product.getPrice());
 		mainOrder.setTotal(product.getPrice() + 10);
 
-		mainOrder.setPaymentMethod(PaymentMethod.CREDIT_CARD);
+		mainOrder.setPaymentMethod(PaymentMethod.COD);
 		mainOrder.setStatus(OrderStatus.NEW);
 		mainOrder.setDeliverDate(new Date());
 		mainOrder.setDeliverDays(1);
@@ -105,7 +105,7 @@ public class OrderRepositoryTests {
 		mainOrder.setSubtotal(subtotal);
 		mainOrder.setTotal(subtotal + 30);
 		
-		mainOrder.setPaymentMethod(PaymentMethod.CREDIT_CARD);
+		mainOrder.setPaymentMethod(PaymentMethod.COD);
 		mainOrder.setStatus(OrderStatus.PACKAGED);
 		mainOrder.setDeliverDate(new Date());
 		mainOrder.setDeliverDays(3);

@@ -21,4 +21,8 @@ public interface CartItemRepository extends CrudRepository<CartItem, Integer> {
 	@Modifying
 	@Query("DELETE FROM CartItem c WHERE c.customer.id = :customerId AND c.product.id = :productId")
  	void deleteByCustomerAndProduct(Integer customerId, Integer productId);
+
+	@Modifying
+	@Query("DELETE CartItem c WHERE c.customer.id = :customerId")
+	void deleteByCustomer(Integer customerId);
 }

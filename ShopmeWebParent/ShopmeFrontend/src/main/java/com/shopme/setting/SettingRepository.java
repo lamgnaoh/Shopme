@@ -12,4 +12,6 @@ public interface SettingRepository extends CrudRepository<Setting, String> {
 	
 	@Query("SELECT s FROM Setting s WHERE s.category = :catOne OR s.category = :catTwo")
 	 List<Setting> findByTwoCategories(SettingCategory catOne, SettingCategory catTwo);
+
+	Setting findByKey(String key);
 }

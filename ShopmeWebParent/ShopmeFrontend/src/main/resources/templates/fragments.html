@@ -93,5 +93,10 @@
 	</div>
 
 </div>
+
+<div th:fragment="format_currency(amount)" th:remove="tag">
+	<span>[[${CURRENCY_SYMBOL}]] [[${#numbers.formatDecimal(amount, 1,2)}]]</span>
+</div>
+
 </body>
 </html>

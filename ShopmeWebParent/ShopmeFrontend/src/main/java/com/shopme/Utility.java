@@ -1,6 +1,7 @@
 package com.shopme;
 
 import com.shopme.security.oauth.CustomerOAuth2User;
+import com.shopme.setting.CurrencySettingUtils;
 import com.shopme.setting.EmailSettingUtils;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
@@ -8,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Properties;
 
 public class Utility {
@@ -51,5 +54,15 @@ public class Utility {
 		}
 
 		return customerEmail;
+	}
+
+	public static String formatCurrency(float amount, CurrencySettingUtils settings) {
+		String symbol = settings.getSymbol();
+
+		String pattern = symbol + "###,###";
+
+		DecimalFormatSymbols decimalFormatSymbols = DecimalFormatSymbols.getInstance();
+		DecimalFormat formatter = new DecimalFormat(pattern, decimalFormatSymbols);
+		return formatter.format(amount);
 	}
 }
